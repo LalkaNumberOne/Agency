@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainPackage.view.AgencyBrowseViewController">
+   <children>
+      <BorderPane layoutX="11.0" layoutY="10.0" prefHeight="380.0" prefWidth="580.0">
+         <top>
+            <Pane prefHeight="60.0" prefWidth="580.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="162.0" layoutY="6.0" text="Агентство недвижимости">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="agencyNameLabel" alignment="CENTER" layoutX="161.0" layoutY="31.0" prefHeight="16.0" prefWidth="216.0" text="AgencyName">
+                     <font>
+                        <Font name="Arial" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" text="Выбрать агентство" />
+                  <ComboBox fx:id="agencys" layoutX="416.0" layoutY="19.0" prefWidth="150.0" />
+               </children>
+            </Pane>
+         </top>
+         <right>
+            <Pane prefHeight="259.0" prefWidth="257.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutY="6.0" text="Реквизиты:" />
+                  <GridPane layoutX="1.0" layoutY="25.0" prefHeight="197.0" prefWidth="256.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="ИНН" />
+                        <Label text="КПП" GridPane.rowIndex="1" />
+                        <Label text="Банк" GridPane.rowIndex="2" />
+                        <Label text="БИК" GridPane.rowIndex="3" />
+                        <Label text="Номер счета" GridPane.rowIndex="4" />
+                        <Label fx:id="INNLabel" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="KPPLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="bankNameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="BIKLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="accountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+               </children>
+            </Pane>
+         </right>
+         <left>
+            <Pane prefHeight="259.0" prefWidth="16.0" BorderPane.alignment="CENTER" />
+         </left>
+         <center>
+            <Pane prefHeight="259.0" prefWidth="288.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane layoutY="32.0" prefHeight="185.0" prefWidth="303.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="279.0" minWidth="10.0" prefWidth="138.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.0" minWidth="10.0" prefWidth="165.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Номер лицензии:" GridPane.rowIndex="1" />
+                        <Label text="Число сделок:" GridPane.rowIndex="2" />
+                        <Label text="Число жилых объектов:" GridPane.rowIndex="3" />
+                        <Label text="Норма прибыли:" GridPane.rowIndex="4" />
+                        <Label text="Счет:" />
+                        <Label fx:id="billSumLabel" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="licenseNumberLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="dealCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="houseCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="rateOfReturnLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+                  <Label layoutY="6.0" text="Информация: " />
+               </children>
+            </Pane>
+         </center>
+         <bottom>
+            <Pane prefHeight="61.0" prefWidth="580.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button layoutX="130.0" layoutY="18.0" mnemonicParsing="false" text="Сделки" />
+                  <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Жилые объекты" />
+               </children>
+            </Pane>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
