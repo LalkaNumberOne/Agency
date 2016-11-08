@@ -5,6 +5,5 @@ package space.vladoff.model;
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class ResidentialRealEstate extends RealEstate {
-
+public class Cottage extends RealEstate {
 }
