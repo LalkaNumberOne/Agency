@@ -1,4 +1,5 @@
-package mainPackage; /**
+package space.vladoff;
+/**
  * Created by Vladislav Russinovich on 20.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
@@ -6,15 +7,15 @@ package mainPackage; /**
 import java.io.IOException;
 
 import javafx.scene.layout.AnchorPane;
-import mainPackage.Model.RealEstateAgency;
+import space.vladoff.model.RealEstateAgency;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import mainPackage.Model.Requisite;
-import mainPackage.view.AgencyBrowseViewController;
+import space.vladoff.model.Requisite;
+import space.vladoff.view.AgencyBrowseViewController;
 
 public class MainController extends Application {
 
@@ -54,8 +55,7 @@ public class MainController extends Application {
 
 
     /**
-     * Возвращает главную сцену.
-     * @return
+     * @return gives us primary stage
      */
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -76,7 +76,7 @@ public class MainController extends Application {
 
     /**
      * Возвращает данные в виде наблюдаемого списка адресатов.
-     * @return
+     * @return gives us observable list of Real Estate Agency
      */
     public ObservableList<RealEstateAgency> getAgencyData() {
         return agencyData;

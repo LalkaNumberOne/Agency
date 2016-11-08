@@ -1,11 +1,11 @@
-package mainPackage.view;
+package space.vladoff.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import mainPackage.MainController;
-import mainPackage.Model.RealEstateAgency;
+import space.vladoff.MainController;
+import space.vladoff.model.RealEstateAgency;
 import javafx.scene.control.Label;
 
 /**
@@ -43,9 +43,9 @@ public class AgencyBrowseViewController {
     Label BIKLabel;
     @FXML
     Label accountLabel;
-    ObservableList<RealEstateAgency> spisok = FXCollections.observableArrayList();
+    //ObservableList<RealEstateAgency> spisok;
     @FXML
-    ComboBox<RealEstateAgency> agencys = new ComboBox<>(spisok);
+    ComboBox<RealEstateAgency> agencys;
 
 
     public AgencyBrowseViewController()

@@ -1,4 +1,4 @@
-package mainPackage.Model; /**
+package space.vladoff.model; /**
  * Created by Vladislav Russinovich on 07.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
@@ -6,68 +6,6 @@ package mainPackage.Model; /**
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
-import java.util.Date;
-
-enum RealEstateType {
-    apartment {
-        public String toString(){
-            return "Apartment";
-        }
-    },
-    house {
-        public String toString(){
-            return "House";
-        }
-    },
-    cottage {
-        public String toString(){
-            return "Cottage";
-        }
-    },
-    unknown {
-        public String toString() {return "Unknown";}
-    }
-}
-
-enum MaterialType {
-    brick {
-        public String toString(){
-            return "Brick";
-        }
-    },
-    pane {
-        public String toString(){
-            return "Pane";
-        }
-    },
-    unknown {
-        public String toString() {return "Unknown";}
-    }
-}
-
-enum PlanningType {
-    khrushevPlanning {
-        public String toString() {
-            return "Khrushev Planning";
-        }
-    },
-
-    fullPlanning {
-        public String toString(){
-            return "Full Planning";
-        }
-    },
-
-    improvedPlanning {
-        public String toString(){
-            return "Improved Planning";
-        }
-    },
-    unknown {
-        public String toString() {return "Unknown";}
-    }
-
-}
 
 public class RealEstate {
     private ObjectProperty<LocalDate> dateOfRecord;

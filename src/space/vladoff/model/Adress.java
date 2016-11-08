@@ -1,4 +1,4 @@
-package mainPackage.Model;
+package space.vladoff.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
