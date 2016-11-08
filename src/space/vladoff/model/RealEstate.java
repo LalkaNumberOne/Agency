@@ -11,7 +11,6 @@ public class RealEstate {
     private ObjectProperty<LocalDate> dateOfRecord;
     private IntegerProperty objectNumber;
     private ObjectProperty<Person> owner;
-    private RealEstateType objectType;
     private IntegerProperty roomCount;
     private ObjectProperty<Adress> adress;
     private MaterialType objectMaterial;
@@ -19,16 +18,13 @@ public class RealEstate {
     private DoubleProperty area;
     private boolean balcony;
     private boolean isIsolate;
-    private PlanningType plan;
 
-    public RealEstate(LocalDate dateOfRecord, int objectNumber, Person owner,
-                      RealEstateType objectType, int roomCount, Adress adress,
+    public RealEstate(LocalDate dateOfRecord, int objectNumber, Person owner, int roomCount, Adress adress,
                       MaterialType objectMaterial, int floor, double area,
-                      boolean balcony, boolean isIsolate, PlanningType plan) {
+                      boolean balcony, boolean isIsolate) {
         this.dateOfRecord = new SimpleObjectProperty<>((dateOfRecord!=null) ? dateOfRecord : LocalDate.now());
         this.objectNumber = new SimpleIntegerProperty(objectNumber);
         this.owner = new SimpleObjectProperty<>((owner!=null) ? owner : new Person());
-        this.objectType = objectType;
         this.roomCount = new SimpleIntegerProperty(roomCount);
         this.adress = new SimpleObjectProperty<>((adress!=null)? adress: new Adress());
         this.objectMaterial = objectMaterial;
@@ -36,12 +32,11 @@ public class RealEstate {
         this.area = new SimpleDoubleProperty(area);
         this.balcony = balcony;
         this.isIsolate = isIsolate;
-        this.plan = plan;
     }
 
     public RealEstate()
     {
-        this(null,0,null,RealEstateType.unknown,0,null,MaterialType.unknown,0,0,false,false,PlanningType.unknown);
+        this(null,0,null,0,null,MaterialType.unknown,0,0,false,false);
     }
 
     public LocalDate getDateOfRecord() {
@@ -78,14 +73,6 @@ public class RealEstate {
 
     public void setOwner(Person owner) {
         this.owner.set(owner);
-    }
-
-    public RealEstateType getObjectType() {
-        return objectType;
-    }
-
-    public void setObjectType(RealEstateType objectType) {
-        this.objectType = objectType;
     }
 
     public int getRoomCount() {
@@ -160,14 +147,6 @@ public class RealEstate {
         isIsolate = isolate;
     }
 
-    public PlanningType getPlan() {
-        return plan;
-    }
-
-    public void setPlan(PlanningType plan) {
-        this.plan = plan;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -181,13 +160,11 @@ public class RealEstate {
             return false;
         if (getObjectNumber()!=that.getObjectNumber()) return false;
         if (getOwner() != null ? !getOwner().equals(that.getOwner()) : that.getOwner() != null) return false;
-        if (getObjectType() != that.getObjectType()) return false;
         if (getRoomCount()!=that.getRoomCount()) return false;
         if (getAdress() != null ? !getAdress().equals(that.getAdress()) : that.getAdress() != null) return false;
         if (getObjectMaterial() != that.getObjectMaterial()) return false;
         if (getFloor()!=that.getFloor()) return false;
-        if (getArea()!=that.getArea()) return false;
-        return getPlan() == that.getPlan();
+        return  (getArea()==that.getArea());
 
     }
 
@@ -196,7 +173,6 @@ public class RealEstate {
         int result = getDateOfRecord() != null ? getDateOfRecord().hashCode() : 0;
         result = 31 * result + new Integer(getObjectNumber()).hashCode();
         result = 31 * result + (getOwner() != null ? getOwner().hashCode() : 0);
-        result = 31 * result + (getObjectType() != null ? getObjectType().hashCode() : 0);
         result = 31 * result + new Integer(getRoomCount()).hashCode();
         result = 31 * result + (getAdress() != null ? getAdress().hashCode() : 0);
         result = 31 * result + (getObjectMaterial() != null ? getObjectMaterial().hashCode() : 0);
@@ -204,7 +180,6 @@ public class RealEstate {
         result = 31 * result + new Double(getArea()).hashCode();
         result = 31 * result + (isBalcony() ? 1 : 0);
         result = 31 * result + (isIsolate ? 1 : 0);
-        result = 31 * result + (getPlan() != null ? getPlan().hashCode() : 0);
         return result;
     }
 }
