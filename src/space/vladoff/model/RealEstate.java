@@ -7,9 +7,9 @@ import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
-public class RealEstate {
+public abstract class RealEstate {
     private ObjectProperty<LocalDate> dateOfRecord;
-    private IntegerProperty objectNumber;
+    private static IntegerProperty objectNumber;
     private ObjectProperty<Person> owner;
     private IntegerProperty roomCount;
     private ObjectProperty<Adress> adress;
@@ -19,11 +19,10 @@ public class RealEstate {
     private boolean balcony;
     private boolean isIsolate;
 
-    public RealEstate(LocalDate dateOfRecord, int objectNumber, Person owner, int roomCount, Adress adress,
+    public RealEstate(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
                       MaterialType objectMaterial, int floor, double area,
                       boolean balcony, boolean isIsolate) {
         this.dateOfRecord = new SimpleObjectProperty<>((dateOfRecord!=null) ? dateOfRecord : LocalDate.now());
-        this.objectNumber = new SimpleIntegerProperty(objectNumber);
         this.owner = new SimpleObjectProperty<>((owner!=null) ? owner : new Person());
         this.roomCount = new SimpleIntegerProperty(roomCount);
         this.adress = new SimpleObjectProperty<>((adress!=null)? adress: new Adress());
@@ -32,13 +31,28 @@ public class RealEstate {
         this.area = new SimpleDoubleProperty(area);
         this.balcony = balcony;
         this.isIsolate = isIsolate;
+        if (RealEstate.objectNumber == null)
+            RealEstate.objectNumber = new SimpleIntegerProperty(0);
+        RealEstate.objectNumber.setValue(RealEstate.objectNumber.get() + 1);
     }
 
     public RealEstate()
     {
-        this(null,0,null,0,null,MaterialType.unknown,0,0,false,false);
+        this(null, null, 0, null, MaterialType.unknown, 0, 0, false, false);
     }
 
+
+    //Visitor abstract method
+    public abstract void accept(Visitor v);
+
+
+    /**
+     * Getters and Setters
+     */
+
+    /**
+     * @return gives date of record in LocalDate type
+     */
     public LocalDate getDateOfRecord() {
         return dateOfRecord.get();
     }

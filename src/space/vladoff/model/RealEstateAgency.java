@@ -179,4 +179,9 @@ public class RealEstateAgency {
         return result;
     }
 
+
+    @Override
+    public String toString() {
+        return getAgencyName();
+    }
 }

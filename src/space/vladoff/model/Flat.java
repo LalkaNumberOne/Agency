@@ -12,11 +12,23 @@ public class Flat extends RealEstate {
 
 
     public Flat(LocalDate dateOfRecord, int objectNumber, Person owner, int roomCount, Adress adress, MaterialType objectMaterial, int floor, double area, boolean balcony, boolean isIsolate, PlanningType plan) {
-        super(dateOfRecord, objectNumber, owner, roomCount, adress, objectMaterial, floor, area, balcony, isIsolate);
+        super(dateOfRecord, owner, roomCount, adress, objectMaterial, floor, area, balcony, isIsolate);
         this.plan = plan;
     }
 
     public Flat(PlanningType plan) {
+        this.plan = plan;
+    }
+
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
+
+    public PlanningType getPlan() {
+        return plan;
+    }
+
+    public void setPlan(PlanningType plan) {
         this.plan = plan;
     }
 }

@@ -3,10 +3,20 @@ package space.vladoff.view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import space.vladoff.MainController;
+import space.vladoff.model.RealEstate;
 import space.vladoff.model.RealEstateAgency;
 import javafx.scene.control.Label;
+
+import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 
 /**
  * Created by Vladislav Russinovich on 20.10.2016.
@@ -43,13 +53,11 @@ public class AgencyBrowseViewController {
     Label BIKLabel;
     @FXML
     Label accountLabel;
-    //ObservableList<RealEstateAgency> spisok;
     @FXML
     ComboBox<RealEstateAgency> agencys;
 
 
-    public AgencyBrowseViewController()
-    {
+    public AgencyBrowseViewController() {
     }
 
     @FXML
@@ -65,6 +73,44 @@ public class AgencyBrowseViewController {
         this.mainApp = mainApp;
         list = mainApp.getAgencyData();
         agencys.setItems(list);
+    }
+
+//    @FXML
+//    private void OpenRealEstateView() {
+//        try {
+//            ArrayList<RealEstate> estates = agencys.getSelectionModel().getSelectedItem().getEstates();
+//        } catch () {
+//
+//        }
+//    }
+
+    @FXML
+    private void handleRealEstates() {
+        showRealEstateView(agencys.getSelectionModel().getSelectedItem().getEstates());
+    }
+
+    private void showRealEstateView(ArrayList<RealEstate> realEstates) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainController.class.getResource("view/RealEstateView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            Stage viewStage = new Stage();
+            viewStage.setTitle("Недвижимость");
+            viewStage.initModality(Modality.WINDOW_MODAL);
+            viewStage.initOwner(mainApp.getPrimaryStage());
+            Scene scene = new Scene(page);
+            viewStage.setScene(scene);
+
+            RealEstateViewController controller = loader.getController();
+            controller.setDialogStage(viewStage);
+            ObservableList<RealEstate> Observable = FXCollections.observableArrayList(realEstates);
+            controller.buildTable(Observable);
+
+            viewStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

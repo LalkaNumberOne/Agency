@@ -80,4 +80,20 @@ public class Person {
         result = 31 * result + (getMiddleName() != null ? getMiddleName().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(getLastName());
+            sb.append(" ");
+            sb.append(getFirstName().indexOf(0));
+            sb.append(". ");
+            sb.append(getMiddleName().indexOf(0));
+            sb.append(".");
+            return sb.toString();
+        } catch (NullPointerException e) {
+            return "Unknown";
+        }
+    }
 }

@@ -5,7 +5,7 @@ package space.vladoff.model;
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-enum PlanningType {
+public enum PlanningType {
     khrushevPlanning {
         public String toString() {
             return "Khrushev Planning";

@@ -5,9 +5,10 @@ package space.vladoff.model;
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class House extends RealEstate {
+public interface Visitor {
+    void visit(Flat patient);
 
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
+    void visit(House patient);
+
+    void visit(Cottage patient);
 }

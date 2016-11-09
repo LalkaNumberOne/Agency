@@ -6,4 +6,8 @@ package space.vladoff.model;
  * Licensed under WTFPL
  */
 public class Cottage extends RealEstate {
+
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
 }

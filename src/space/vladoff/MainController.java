@@ -4,18 +4,23 @@ package space.vladoff;
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
+
 import java.io.IOException;
 
+import space.vladoff.model.*;
+
+import java.util.ArrayList;
+
 import javafx.scene.layout.AnchorPane;
-import space.vladoff.model.RealEstateAgency;
+import javafx.stage.Modality;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import space.vladoff.model.Requisite;
 import space.vladoff.view.AgencyBrowseViewController;
+import space.vladoff.view.RealEstateViewController;
 
 public class MainController extends Application {
 
@@ -62,20 +67,23 @@ public class MainController extends Application {
     }
 
 
-
     public MainController() {
+        ArrayList<RealEstate> simpleList = new ArrayList<>();
+        simpleList.add(new Flat(PlanningType.improvedPlanning));
+        simpleList.add(new Flat(PlanningType.khrushevPlanning));
         agencyData.add(new RealEstateAgency("Котлетка"));
         agencyData.add(new RealEstateAgency("Мир ковров"));
         agencyData.add(new RealEstateAgency("Сбербанк"));
         agencyData.add(new RealEstateAgency("Шляпа"));
         RealEstateAgency real = new RealEstateAgency("Левобережное", "32564342443",
-                new Requisite("7728168971", "775001001", "Альфа-банк","4434682008452","543234880085043852"),
-                2500.46, null, null, 120);
+                new Requisite("7728168971", "775001001", "Альфа-банк", "4434682008452", "543234880085043852"),
+                2500.46, simpleList, null, 120);
         agencyData.add(real);
     }
 
     /**
      * Возвращает данные в виде наблюдаемого списка адресатов.
+     *
      * @return gives us observable list of Real Estate Agency
      */
     public ObservableList<RealEstateAgency> getAgencyData() {
