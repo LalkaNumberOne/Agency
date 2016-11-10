@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -56,6 +57,8 @@ public class AgencyBrowseViewController {
     @FXML
     ComboBox<RealEstateAgency> agencys;
 
+    ObservableList<RealEstate> realEstateObservableList;
+
 
     public AgencyBrowseViewController() {
     }
@@ -75,42 +78,53 @@ public class AgencyBrowseViewController {
         agencys.setItems(list);
     }
 
-//    @FXML
-//    private void OpenRealEstateView() {
-//        try {
-//            ArrayList<RealEstate> estates = agencys.getSelectionModel().getSelectedItem().getEstates();
-//        } catch () {
-//
-//        }
-//    }
-
     @FXML
     private void handleRealEstates() {
-        showRealEstateView(agencys.getSelectionModel().getSelectedItem().getEstates());
+        if (agencys.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Ахтунг!");
+            alert.setHeaderText("Не выбрано агентство.");
+            alert.setContentText("Выберите агентство, пожалуйста.");
+
+            alert.showAndWait();
+        } else showRealEstateView();
     }
 
-    private void showRealEstateView(ArrayList<RealEstate> realEstates) {
+    private void showRealEstateView() {
         try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainController.class.getResource("view/RealEstateView.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
-            Stage viewStage = new Stage();
-            viewStage.setTitle("Недвижимость");
-            viewStage.initModality(Modality.WINDOW_MODAL);
-            viewStage.initOwner(mainApp.getPrimaryStage());
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Список объектов недвижимости");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp.getPrimaryStage());
             Scene scene = new Scene(page);
-            viewStage.setScene(scene);
+            dialogStage.setScene(scene);
 
+            // Передаём адресата в контроллер.
             RealEstateViewController controller = loader.getController();
-            controller.setDialogStage(viewStage);
-            ObservableList<RealEstate> Observable = FXCollections.observableArrayList(realEstates);
-            controller.buildTable(Observable);
+            controller.setDialogStage(dialogStage);
+            controller.setMainController(this);
 
-            viewStage.showAndWait();
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<RealEstate> getRealEstateData() {
+        return agencys.getSelectionModel().getSelectedItem().getEstates();
+    }
+
+    public void setRealEstateData(ArrayList<RealEstate> estate) {
+        agencys.getSelectionModel().getSelectedItem().setEstates(estate);
     }
 
 
@@ -128,6 +142,7 @@ public class AgencyBrowseViewController {
             bankNameLabel.setText(agency.getRequisite().getBankName());
             BIKLabel.setText(agency.getRequisite().getBIK());
             accountLabel.setText(agency.getRequisite().getAccount());
+            realEstateObservableList = FXCollections.observableArrayList(agency.getEstates());
         } else {
             agencyNameLabel.setText("");
             billSumLabel.setText("");

@@ -98,4 +98,17 @@ public class Adress {
         result = 31 * result + (getApartNo() != null ? getApartNo().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getCity());
+        sb.append("\n");
+        sb.append(getStreet());
+        sb.append("\n");
+        sb.append(getBuildNo());
+        sb.append(", ");
+        sb.append(getApartNo());
+        return sb.toString();
+    }
 }

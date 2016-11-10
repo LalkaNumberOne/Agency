@@ -8,19 +8,19 @@ package space.vladoff.model;
 public enum PlanningType {
     khrushevPlanning {
         public String toString() {
-            return "Khrushev Planning";
+            return "Хрущевка";
         }
     },
 
     fullPlanning {
         public String toString(){
-            return "Full Planning";
+            return "Полноценная";
         }
     },
 
     improvedPlanning {
         public String toString(){
-            return "Improved Planning";
+            return "Улучшенная";
         }
     },
     unknown {

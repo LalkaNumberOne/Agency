@@ -83,17 +83,12 @@ public class Person {
 
     @Override
     public String toString() {
-        try {
             StringBuilder sb = new StringBuilder();
             sb.append(getLastName());
-            sb.append(" ");
-            sb.append(getFirstName().indexOf(0));
-            sb.append(". ");
-            sb.append(getMiddleName().indexOf(0));
-            sb.append(".");
+        sb.append("\n");
+        sb.append(getFirstName());
+        sb.append("\n");
+        sb.append(getMiddleName());
             return sb.toString();
-        } catch (NullPointerException e) {
-            return "Unknown";
-        }
     }
 }

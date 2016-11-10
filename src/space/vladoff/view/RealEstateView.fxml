@@ -16,13 +16,15 @@
             <bottom>
                 <AnchorPane prefHeight="60.0" prefWidth="590.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Pane layoutX="376.0" layoutY="121.0" prefHeight="55.0" prefWidth="348.0"
-                              AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                        <Pane layoutX="365.0" layoutY="3.0" prefHeight="55.0" prefWidth="404.0"
+                              AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="3.0">
                             <children>
-                                <Button layoutX="60.0" layoutY="15.0" mnemonicParsing="false" text="ОК"/>
-                                <Button layoutX="236.0" layoutY="15.0" mnemonicParsing="false" text="Редактировать"/>
-                                <Button layoutX="168.0" layoutY="15.0" mnemonicParsing="false" text="Создать"/>
-                                <Button layoutX="101.0" layoutY="15.0" mnemonicParsing="false" text="Отмена"/>
+                                <Button layoutX="118.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClose"
+                                        text="ОК"/>
+                                <Button layoutX="226.0" layoutY="15.0" mnemonicParsing="false" text="Редактировать"/>
+                                <Button layoutX="158.0" layoutY="15.0" mnemonicParsing="false" text="Создать"/>
+                                <Button layoutX="330.0" layoutY="15.0" mnemonicParsing="false"
+                                        onAction="#handleDeleteEstates" text="Удалить"/>
                             </children>
                         </Pane>
                     </children>
@@ -35,15 +37,21 @@
                                    prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
-                                <TableColumn fx:id="dateOfRecord" prefWidth="53.0" text="Дата"/>
-                                <TableColumn fx:id="objectNumber" prefWidth="39.0" text="№"/>
-                                <TableColumn fx:id="owner" prefWidth="75.0" text="Владелец"/>
-                                <TableColumn fx:id="roomCount" prefWidth="59.0" text="Комнат"/>
-                                <TableColumn fx:id="floor" prefWidth="75.0" text="Этаж(-ей)"/>
-                                <TableColumn fx:id="area" prefWidth="67.0" text="Площадь"/>
-                                <TableColumn fx:id="balcony" prefWidth="52.0" text="Балкон"/>
-                                <TableColumn fx:id="isIsolate" prefWidth="88.0" text="Изол/Смеж"/>
-                                <TableColumn fx:id="PlanningType" prefWidth="91.0" text="Планировка"/>
+                                <TableColumn fx:id="objectNumber" maxWidth="20.0" minWidth="20.0" prefWidth="20.0"
+                                             text="№"/>
+                                <TableColumn fx:id="dateOfRecord" minWidth="40.0" prefWidth="85.0" text="Дата"/>
+                                <TableColumn fx:id="PlanningType" maxWidth="80.0" minWidth="80.0" text="Планировка"/>
+                                <TableColumn fx:id="owner" minWidth="50.0" prefWidth="100.0" text="Владелец"/>
+                                <TableColumn fx:id="roomCount" maxWidth="50.0" minWidth="50.0" prefWidth="50.0"
+                                             text="Комнат"/>
+                                <TableColumn fx:id="floor" maxWidth="62.0" minWidth="62.0" prefWidth="62.0"
+                                             text="Этаж(-ей)"/>
+                                <TableColumn fx:id="area" maxWidth="60.0" minWidth="60.0" prefWidth="60.0"
+                                             text="Площадь"/>
+                                <TableColumn fx:id="balcony" maxWidth="50.0" minWidth="50.0" prefWidth="50.0"
+                                             text="Балкон"/>
+                                <TableColumn fx:id="isIsolate" maxWidth="80.0" minWidth="80.0" text="Изол/Смеж"/>
+                                <TableColumn fx:id="objectAdress" minWidth="130.0" prefWidth="190.0" text="Адрес"/>
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
