@@ -26,9 +26,9 @@ public class Adress {
         this(null,null,null,null);
     }
 
-    public StringProperty getCity() {
+    public String getCity() {
 
-        return city;
+        return city.get();
     }
 
     public StringProperty cityProperty() {

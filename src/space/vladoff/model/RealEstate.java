@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public abstract class RealEstate {
     private ObjectProperty<LocalDate> dateOfRecord;
-    private static IntegerProperty objectNumber;
+    private IntegerProperty objectNumber;
     private ObjectProperty<Person> owner;
     private IntegerProperty roomCount;
     private ObjectProperty<Adress> adress;
@@ -31,9 +31,7 @@ public abstract class RealEstate {
         this.area = new SimpleDoubleProperty(area);
         this.balcony = balcony;
         this.isIsolate = isIsolate;
-        if (RealEstate.objectNumber == null)
-            RealEstate.objectNumber = new SimpleIntegerProperty(0);
-        RealEstate.objectNumber.setValue(RealEstate.objectNumber.get() + 1);
+        this.objectNumber = new SimpleIntegerProperty(0);
     }
 
     public RealEstate()

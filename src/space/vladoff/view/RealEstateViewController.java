@@ -1,5 +1,9 @@
 package space.vladoff.view;
-
+/**
+ * Created by Vladislav Russinovich on 09.11.2016.
+ * NSTU, Faculty of Automation and Computer Engineering, AVT-512
+ * Licensed under WTFPL
+ */
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,11 +22,7 @@ import space.vladoff.model.RealEstate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/**
- * Created by Vladislav Russinovich on 09.11.2016.
- * NSTU, Faculty of Automation and Computer Engineering, AVT-512
- * Licensed under WTFPL
- */
+
 public class RealEstateViewController {
     @FXML
     private TableView<RealEstate> realEstateTable;
