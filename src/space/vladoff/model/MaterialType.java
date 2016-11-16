@@ -8,15 +8,17 @@ package space.vladoff.model;
 public enum MaterialType {
     brick {
         public String toString(){
-            return "Brick";
+            return "Кирпич";
         }
     },
     pane {
         public String toString(){
-            return "Pane";
+            return "Панель";
         }
     },
     unknown {
-        public String toString() {return "Unknown";}
+        public String toString() {
+            return "Другой";
+        }
     }
 }

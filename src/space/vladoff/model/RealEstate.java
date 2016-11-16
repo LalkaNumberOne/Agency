@@ -7,17 +7,17 @@ import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
-public abstract class RealEstate {
+public class RealEstate {
     private ObjectProperty<LocalDate> dateOfRecord;
     private IntegerProperty objectNumber;
     private ObjectProperty<Person> owner;
     private IntegerProperty roomCount;
     private ObjectProperty<Adress> adress;
-    private MaterialType objectMaterial;
+    private ObjectProperty<MaterialType> objectMaterial;
     private IntegerProperty floor;
     private DoubleProperty area;
-    private boolean balcony;
-    private boolean isIsolate;
+    private BooleanProperty balcony;
+    private BooleanProperty isIsolate;
 
     public RealEstate(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
                       MaterialType objectMaterial, int floor, double area,
@@ -26,11 +26,11 @@ public abstract class RealEstate {
         this.owner = new SimpleObjectProperty<>((owner!=null) ? owner : new Person());
         this.roomCount = new SimpleIntegerProperty(roomCount);
         this.adress = new SimpleObjectProperty<>((adress!=null)? adress: new Adress());
-        this.objectMaterial = objectMaterial;
+        this.objectMaterial = new SimpleObjectProperty<>(objectMaterial);
         this.floor = new SimpleIntegerProperty(floor);
         this.area = new SimpleDoubleProperty(area);
-        this.balcony = balcony;
-        this.isIsolate = isIsolate;
+        this.balcony = new SimpleBooleanProperty(balcony);
+        this.isIsolate = new SimpleBooleanProperty(isIsolate);
         this.objectNumber = new SimpleIntegerProperty(0);
     }
 
@@ -38,11 +38,6 @@ public abstract class RealEstate {
     {
         this(null, null, 0, null, MaterialType.unknown, 0, 0, false, false);
     }
-
-
-    //Visitor abstract method
-    public abstract void accept(Visitor v);
-
 
     /**
      * Getters and Setters
@@ -112,11 +107,15 @@ public abstract class RealEstate {
     }
 
     public MaterialType getObjectMaterial() {
+        return objectMaterial.get();
+    }
+
+    public ObjectProperty<MaterialType> objectMaterialProperty() {
         return objectMaterial;
     }
 
     public void setObjectMaterial(MaterialType objectMaterial) {
-        this.objectMaterial = objectMaterial;
+        this.objectMaterial.set(objectMaterial);
     }
 
     public int getFloor() {
@@ -142,23 +141,6 @@ public abstract class RealEstate {
     public void setArea(double area) {
         this.area.set(area);
     }
-
-    public boolean isBalcony() {
-        return balcony;
-    }
-
-    public void setBalcony(boolean balcony) {
-        this.balcony = balcony;
-    }
-
-    public boolean isolate() {
-        return isIsolate;
-    }
-
-    public void setIsolate(boolean isolate) {
-        isIsolate = isolate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -191,7 +173,31 @@ public abstract class RealEstate {
         result = 31 * result + new Integer(getFloor()).hashCode();
         result = 31 * result + new Double(getArea()).hashCode();
         result = 31 * result + (isBalcony() ? 1 : 0);
-        result = 31 * result + (isIsolate ? 1 : 0);
+        result = 31 * result + (isIsolate() ? 1 : 0);
         return result;
+    }
+
+    public boolean isBalcony() {
+        return balcony.get();
+    }
+
+    public BooleanProperty balconyProperty() {
+        return balcony;
+    }
+
+    public void setBalcony(boolean balcony) {
+        this.balcony.set(balcony);
+    }
+
+    public boolean isIsolate() {
+        return isIsolate.get();
+    }
+
+    public BooleanProperty IsolateProperty() {
+        return isIsolate;
+    }
+
+    public void setIsIsolate(boolean isIsolate) {
+        this.isIsolate.set(isIsolate);
     }
 }

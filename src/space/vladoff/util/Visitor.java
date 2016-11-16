@@ -1,4 +1,8 @@
-package space.vladoff.model;
+package space.vladoff.util;
+
+import space.vladoff.model.Cottage;
+import space.vladoff.model.Flat;
+import space.vladoff.model.House;
 
 /**
  * Created by Vladislav Russinovich on 08.11.2016.
@@ -6,9 +10,5 @@ package space.vladoff.model;
  * Licensed under WTFPL
  */
 public interface Visitor {
-    void visit(Flat patient);
 
-    void visit(House patient);
-
-    void visit(Cottage patient);
 }

@@ -21,8 +21,10 @@
                             <children>
                                 <Button layoutX="118.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClose"
                                         text="ОК"/>
-                                <Button layoutX="226.0" layoutY="15.0" mnemonicParsing="false" text="Редактировать"/>
-                                <Button layoutX="158.0" layoutY="15.0" mnemonicParsing="false" text="Создать"/>
+                                <Button layoutX="226.0" layoutY="15.0" mnemonicParsing="false"
+                                        onAction="#handleEditRealEstate" text="Редактировать"/>
+                                <Button layoutX="158.0" layoutY="15.0" mnemonicParsing="false"
+                                        onAction="#handleNewRealEstate" text="Создать"/>
                                 <Button layoutX="330.0" layoutY="15.0" mnemonicParsing="false"
                                         onAction="#handleDeleteEstates" text="Удалить"/>
                             </children>

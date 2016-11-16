@@ -1,5 +1,7 @@
 package space.vladoff.model;
 
+import space.vladoff.util.Visitor;
+
 /**
  * Created by Vladislav Russinovich on 08.11.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
@@ -7,7 +9,8 @@ package space.vladoff.model;
  */
 public class Cottage extends RealEstate {
 
-    public void accept(Visitor v) {
-        v.visit(this);
+    @Override
+    public String toString() {
+        return "Коттедж";
     }
 }

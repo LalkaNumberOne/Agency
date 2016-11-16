@@ -1,0 +1,9 @@
+(new Callback<TableColumn.CellDataFeatures<RealEstate, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<RealEstate, String> param) {
+                if (param.getValue() instanceof Flat) {
+                    Flat flat = (Flat) param.getValue();
+                    return new SimpleStringProperty(flat.getPlan().toString());
+                } else return new SimpleStringProperty("Нет");
+            }
+        });

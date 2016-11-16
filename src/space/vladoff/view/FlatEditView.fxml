@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0"
-            prefWidth="586.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+            prefWidth="586.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="space.vladoff.view.FlatEditViewController">
     <children>
         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -61,21 +61,23 @@
                                     </rowConstraints>
                                     <children>
                                         <Label text="Дата добавления:"/>
-                                        <DatePicker GridPane.rowIndex="1"/>
+                                        <DatePicker fx:id="dateOfRecord" GridPane.rowIndex="1"/>
                                         <Label text="Количество комнат: " GridPane.rowIndex="2"/>
-                                        <TextField GridPane.rowIndex="3"/>
+                                        <TextField fx:id="roomCount" GridPane.rowIndex="3"/>
                                         <Label text="Материал:" GridPane.rowIndex="4"/>
-                                        <ComboBox prefWidth="150.0" GridPane.rowIndex="5"/>
+                                        <ComboBox fx:id="materialType" prefWidth="150.0" GridPane.rowIndex="5"/>
                                         <Label text="Этаж:" GridPane.rowIndex="6"/>
-                                        <TextField GridPane.rowIndex="7"/>
+                                        <TextField fx:id="floor" GridPane.rowIndex="7"/>
                                         <Label text="Площадь:" GridPane.rowIndex="8"/>
-                                        <TextField GridPane.rowIndex="9"/>
-                                        <CheckBox mnemonicParsing="false" text="Балкон" GridPane.rowIndex="10"/>
-                                        <CheckBox mnemonicParsing="false" text="Смежный" GridPane.rowIndex="11"/>
+                                        <TextField fx:id="area" GridPane.rowIndex="9"/>
+                                        <CheckBox fx:id="balcony" mnemonicParsing="false" text="Балкон"
+                                                  GridPane.rowIndex="10"/>
+                                        <CheckBox fx:id="isIsolate" mnemonicParsing="false" text="Смежный"
+                                                  GridPane.rowIndex="11"/>
                                         <Label text="Планировка:" GridPane.rowIndex="12"/>
-                                        <ComboBox prefWidth="150.0" GridPane.rowIndex="13"/>
+                                        <ComboBox fx:id="plan" prefWidth="150.0" GridPane.rowIndex="13"/>
                                         <Label text="Номер объекта:" GridPane.rowIndex="14"/>
-                                        <TextField GridPane.rowIndex="15"/>
+                                        <TextField fx:id="objectField" GridPane.rowIndex="15"/>
                                     </children>
                                 </GridPane>
                             </children>
@@ -103,11 +105,23 @@
                                     <children>
                                         <Label text="Владелец: "/>
                                         <Label text="Имя: " GridPane.rowIndex="1"/>
-                                        <TextField GridPane.rowIndex="2"/>
+                                        <TextField fx:id="firstName" GridPane.rowIndex="2">
+                                            <GridPane.margin>
+                                                <Insets right="5.0"/>
+                                            </GridPane.margin>
+                                        </TextField>
                                         <Label text="Фамилия: " GridPane.rowIndex="3"/>
                                         <Label text="Отчество: " GridPane.rowIndex="5"/>
-                                        <TextField GridPane.rowIndex="4"/>
-                                        <TextField GridPane.rowIndex="6"/>
+                                        <TextField fx:id="lastName" GridPane.rowIndex="4">
+                                            <GridPane.margin>
+                                                <Insets right="5.0"/>
+                                            </GridPane.margin>
+                                        </TextField>
+                                        <TextField fx:id="middleName" GridPane.rowIndex="6">
+                                            <GridPane.margin>
+                                                <Insets right="5.0"/>
+                                            </GridPane.margin>
+                                        </TextField>
                                         <Label text="Адрес:" GridPane.columnIndex="1">
                                             <GridPane.margin>
                                                 <Insets left="5.0"/>
@@ -133,22 +147,23 @@
                                                 <Insets left="6.0"/>
                                             </GridPane.margin>
                                         </Label>
-                                        <TextField prefWidth="153.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                        <TextField fx:id="city" prefWidth="153.0" GridPane.columnIndex="1"
+                                                   GridPane.rowIndex="2">
                                             <GridPane.margin>
                                                 <Insets left="5.0"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                        <TextField fx:id="street" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                             <GridPane.margin>
                                                 <Insets left="5.0"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                        <TextField fx:id="buildNo" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                             <GridPane.margin>
                                                 <Insets left="5.0"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                        <TextField fx:id="apartNo" GridPane.columnIndex="1" GridPane.rowIndex="8">
                                             <GridPane.margin>
                                                 <Insets left="5.0"/>
                                             </GridPane.margin>
@@ -169,8 +184,10 @@
                         <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
                               AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <Button layoutX="518.0" layoutY="19.0" mnemonicParsing="false" text="Отмена"/>
-                                <Button layoutX="477.0" layoutY="19.0" mnemonicParsing="false" text="ОК"/>
+                                <Button layoutX="518.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleCancel"
+                                        text="Отмена"/>
+                                <Button layoutX="477.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleOk"
+                                        text="ОК"/>
                             </children>
                         </Pane>
                     </children>

@@ -24,7 +24,9 @@ public enum PlanningType {
         }
     },
     unknown {
-        public String toString() {return "Unknown";}
+        public String toString() {
+            return "Другая";
+        }
     }
 
 }
