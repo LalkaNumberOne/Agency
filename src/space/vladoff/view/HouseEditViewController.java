@@ -1,33 +1,42 @@
 package space.vladoff.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
 import space.vladoff.model.*;
-import space.vladoff.model.enums.PlanningType;
+import space.vladoff.model.enums.ElectricityProperty;
+import space.vladoff.model.enums.GarageProperty;
+import space.vladoff.model.enums.Inventory;
 
 /**
- * Created by Vladislav Russinovich on 11.11.2016.
+ * Created by Vladislav Russinovich on 17.11.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class FlatEditViewController extends RealEstateEditViewController {
-
+public class HouseEditViewController extends RealEstateEditViewController {
     @FXML
-    private ComboBox<PlanningType> plan;
+    private ComboBox<Inventory> inventory;
+    @FXML
+    private ComboBox<GarageProperty> garage;
+    @FXML
+    private ComboBox<ElectricityProperty> electricity;
 
-    private Flat flat;
+    private House house;
 
     @FXML
     protected void initialize() {
         super.initialize();
-        plan.getItems().setAll(PlanningType.values());
+        inventory.getItems().setAll(Inventory.values());
+        garage.getItems().setAll(GarageProperty.values());
+        electricity.getItems().setAll(ElectricityProperty.values());
     }
 
     @Override
     public void setRealEstate(RealEstate realEstate) {
         super.setRealEstate(realEstate);
-        this.flat = (Flat) realEstate;
-        plan.setValue(flat.getPlan());
+        this.house = (House) realEstate;
+        this.electricity.setValue(house.getElectricity());
+        this.garage.setValue(house.getGarage());
+        this.inventory.setValue(house.getInventory());
     }
 
     @FXML
@@ -40,7 +49,9 @@ public class FlatEditViewController extends RealEstateEditViewController {
             realEstate.setArea(Double.parseDouble(area.getText()));
             realEstate.setBalcony(balcony.getValue());
             realEstate.setRoomType(roomType.getValue());
-            flat.setPlan(plan.getValue());
+            house.setGarage(garage.getValue());
+            house.setElectricity(electricity.getValue());
+            house.setInventory(inventory.getValue());
             realEstate.setObjectNumber(Integer.parseInt(objectField.getText()));
 
             realEstate.setOwner(new Person(firstName.getText(), lastName.getText(), middleName.getText()));

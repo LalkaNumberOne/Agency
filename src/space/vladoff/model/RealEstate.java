@@ -1,9 +1,13 @@
-package space.vladoff.model; /**
+package space.vladoff.model;
+/**
  * Created by Vladislav Russinovich on 07.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
 import javafx.beans.property.*;
+import space.vladoff.model.enums.BalconyProperty;
+import space.vladoff.model.enums.MaterialType;
+import space.vladoff.model.enums.RoomType;
 
 import java.time.LocalDate;
 
@@ -16,12 +20,11 @@ public class RealEstate {
     private ObjectProperty<MaterialType> objectMaterial;
     private IntegerProperty floor;
     private DoubleProperty area;
-    private BooleanProperty balcony;
-    private BooleanProperty isIsolate;
+    private ObjectProperty<BalconyProperty> balcony;
+    private ObjectProperty<RoomType> roomType;
 
     public RealEstate(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
-                      MaterialType objectMaterial, int floor, double area,
-                      boolean balcony, boolean isIsolate) {
+                      MaterialType objectMaterial, int floor, double area, BalconyProperty balconyProperty, RoomType roomType) {
         this.dateOfRecord = new SimpleObjectProperty<>((dateOfRecord!=null) ? dateOfRecord : LocalDate.now());
         this.owner = new SimpleObjectProperty<>((owner!=null) ? owner : new Person());
         this.roomCount = new SimpleIntegerProperty(roomCount);
@@ -29,14 +32,14 @@ public class RealEstate {
         this.objectMaterial = new SimpleObjectProperty<>(objectMaterial);
         this.floor = new SimpleIntegerProperty(floor);
         this.area = new SimpleDoubleProperty(area);
-        this.balcony = new SimpleBooleanProperty(balcony);
-        this.isIsolate = new SimpleBooleanProperty(isIsolate);
+        this.balcony = new SimpleObjectProperty<>(balconyProperty);
+        this.roomType = new SimpleObjectProperty<>(roomType);
         this.objectNumber = new SimpleIntegerProperty(0);
     }
 
     public RealEstate()
     {
-        this(null, null, 0, null, MaterialType.unknown, 0, 0, false, false);
+        this(null, null, 0, null, MaterialType.unknown, 0, 0, BalconyProperty.noBalcony, RoomType.other);
     }
 
     /**
@@ -141,6 +144,31 @@ public class RealEstate {
     public void setArea(double area) {
         this.area.set(area);
     }
+
+    public BalconyProperty getBalcony() {
+        return balcony.get();
+    }
+
+    public ObjectProperty<BalconyProperty> balconyProperty() {
+        return balcony;
+    }
+
+    public void setBalcony(BalconyProperty balcony) {
+        this.balcony.set(balcony);
+    }
+
+    public RoomType getRoomType() {
+        return roomType.get();
+    }
+
+    public ObjectProperty<RoomType> roomTypeProperty() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType.set(roomType);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,8 +176,6 @@ public class RealEstate {
 
         RealEstate that = (RealEstate) o;
 
-        if (isBalcony() != that.isBalcony()) return false;
-        if (isIsolate != that.isIsolate) return false;
         if (getDateOfRecord() != null ? !getDateOfRecord().equals(that.getDateOfRecord()) : that.getDateOfRecord() != null)
             return false;
         if (getObjectNumber()!=that.getObjectNumber()) return false;
@@ -157,6 +183,8 @@ public class RealEstate {
         if (getRoomCount()!=that.getRoomCount()) return false;
         if (getAdress() != null ? !getAdress().equals(that.getAdress()) : that.getAdress() != null) return false;
         if (getObjectMaterial() != that.getObjectMaterial()) return false;
+        if (getBalcony() != that.getBalcony()) return false;
+        if (getRoomType() != that.getRoomType()) return false;
         if (getFloor()!=that.getFloor()) return false;
         return  (getArea()==that.getArea());
 
@@ -172,32 +200,8 @@ public class RealEstate {
         result = 31 * result + (getObjectMaterial() != null ? getObjectMaterial().hashCode() : 0);
         result = 31 * result + new Integer(getFloor()).hashCode();
         result = 31 * result + new Double(getArea()).hashCode();
-        result = 31 * result + (isBalcony() ? 1 : 0);
-        result = 31 * result + (isIsolate() ? 1 : 0);
+        result = 31 * result + (getBalcony() != null ? getBalcony().hashCode() : 0);
+        result = 31 * result + (getRoomType() != null ? getRoomType().hashCode() : 0);
         return result;
-    }
-
-    public boolean isBalcony() {
-        return balcony.get();
-    }
-
-    public BooleanProperty balconyProperty() {
-        return balcony;
-    }
-
-    public void setBalcony(boolean balcony) {
-        this.balcony.set(balcony);
-    }
-
-    public boolean isIsolate() {
-        return isIsolate.get();
-    }
-
-    public BooleanProperty IsolateProperty() {
-        return isIsolate;
-    }
-
-    public void setIsIsolate(boolean isIsolate) {
-        this.isIsolate.set(isIsolate);
     }
 }

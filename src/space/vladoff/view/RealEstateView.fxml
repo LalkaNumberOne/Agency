@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="769.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
+            prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="space.vladoff.view.RealEstateViewController">
     <children>
         <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
@@ -42,8 +42,10 @@
                                 <TableColumn fx:id="objectNumber" maxWidth="20.0" minWidth="20.0" prefWidth="20.0"
                                              text="№"/>
                                 <TableColumn fx:id="dateOfRecord" minWidth="40.0" prefWidth="85.0" text="Дата"/>
-                                <TableColumn fx:id="PlanningType" maxWidth="80.0" minWidth="80.0" text="Планировка"/>
                                 <TableColumn fx:id="owner" minWidth="50.0" prefWidth="100.0" text="Владелец"/>
+                                <TableColumn fx:id="planningType" maxWidth="104.0" minWidth="79.0" prefWidth="79.0"
+                                             text="Планировка"/>
+                                <TableColumn fx:id="materialType" prefWidth="99.0" text="Материал"/>
                                 <TableColumn fx:id="roomCount" maxWidth="50.0" minWidth="50.0" prefWidth="50.0"
                                              text="Комнат"/>
                                 <TableColumn fx:id="floor" maxWidth="62.0" minWidth="62.0" prefWidth="62.0"
@@ -53,7 +55,12 @@
                                 <TableColumn fx:id="balcony" maxWidth="50.0" minWidth="50.0" prefWidth="50.0"
                                              text="Балкон"/>
                                 <TableColumn fx:id="isIsolate" maxWidth="80.0" minWidth="80.0" text="Изол/Смеж"/>
-                                <TableColumn fx:id="objectAdress" minWidth="130.0" prefWidth="190.0" text="Адрес"/>
+                                <TableColumn fx:id="inventory" prefWidth="73.79046630859375" text="Инвентарь"/>
+                                <TableColumn fx:id="garage" prefWidth="46.0" text="Гараж"/>
+                                <TableColumn fx:id="pool" prefWidth="75.0" text="Бассейн"/>
+                                <TableColumn fx:id="electricity" prefWidth="95.439697265625" text="Электричество"/>
+                                <TableColumn fx:id="objectAdress" minWidth="130.0" prefWidth="141.5714111328125"
+                                             text="Адрес"/>
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

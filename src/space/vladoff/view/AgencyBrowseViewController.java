@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import space.vladoff.MainController;
+import space.vladoff.model.Deal;
 import space.vladoff.model.RealEstate;
 import space.vladoff.model.RealEstateAgency;
 import javafx.scene.control.Label;
@@ -83,12 +84,53 @@ public class AgencyBrowseViewController {
         if (agencys.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("Ахтунг!");
+            alert.setTitle("Внимание!");
             alert.setHeaderText("Не выбрано агентство.");
             alert.setContentText("Выберите агентство, пожалуйста.");
 
             alert.showAndWait();
         } else showRealEstateView();
+    }
+
+    @FXML
+    private void handleDeals() {
+        if (agencys.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Внимание!");
+            alert.setHeaderText("Не выбрано агентство.");
+            alert.setContentText("Выберите агентство, пожалуйста.");
+
+            alert.showAndWait();
+        } else showDealsView();
+    }
+
+    private void showDealsView() {
+        try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainController.class.getResource("view/DealsView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Список сделок");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp.getPrimaryStage());
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Передаём адресата в контроллер.
+            DealsViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setMainController(this);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showRealEstateView() {
@@ -125,7 +167,18 @@ public class AgencyBrowseViewController {
 
     public void setRealEstateData(ArrayList<RealEstate> estate) {
         agencys.getSelectionModel().getSelectedItem().setEstates(estate);
+        agencys.getSelectionModel().getSelectedItem().setHouseCount(estate.size());
     }
+
+    public void setDealsData(ArrayList<Deal> deals) {
+        agencys.getSelectionModel().getSelectedItem().setDeals(deals);
+        agencys.getSelectionModel().getSelectedItem().setDealCount(deals.size());
+    }
+
+    public ArrayList<Deal> getDealsData() {
+        return agencys.getSelectionModel().getSelectedItem().getDeals();
+    }
+
 
 
     //Метод вывода информации об агентстве на форму

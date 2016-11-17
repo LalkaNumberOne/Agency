@@ -1,4 +1,4 @@
-package space.vladoff.model;
+package space.vladoff.model.enums;
 
 /**
  * Created by Vladislav Russinovich on 08.11.2016.
@@ -14,6 +14,11 @@ public enum MaterialType {
     pane {
         public String toString(){
             return "Панель";
+        }
+    },
+    monolit {
+        public String toString() {
+            return "Монолитный";
         }
     },
     unknown {

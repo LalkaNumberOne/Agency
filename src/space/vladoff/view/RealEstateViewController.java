@@ -6,8 +6,6 @@ package space.vladoff.view;
  */
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,9 +15,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import space.vladoff.MainController;
 import space.vladoff.model.*;
+import space.vladoff.model.enums.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -46,11 +44,21 @@ public class RealEstateViewController {
     @FXML
     private TableColumn<RealEstate, Number> area;
     @FXML
-    private TableColumn<RealEstate, Boolean> balcony;
+    private TableColumn<RealEstate, BalconyProperty> balcony;
     @FXML
-    private TableColumn<RealEstate, Boolean> isIsolate;
+    private TableColumn<RealEstate, RoomType> isIsolate;
     @FXML
-    private TableColumn<RealEstate, PlanningType> PlanningType;
+    private TableColumn<RealEstate, PlanningType> planningType;
+    @FXML
+    private TableColumn<RealEstate, MaterialType> materialType;
+    @FXML
+    private TableColumn<RealEstate, Inventory> inventory;
+    @FXML
+    private TableColumn<RealEstate, GarageProperty> garage;
+    @FXML
+    private TableColumn<RealEstate, Pool> pool;
+    @FXML
+    private TableColumn<RealEstate, ElectricityProperty> electricity;
 
     private Stage viewStage;
 
@@ -69,17 +77,26 @@ public class RealEstateViewController {
         roomCount.setCellValueFactory(CellData -> CellData.getValue().roomCountProperty());
         area.setCellValueFactory(CellData -> CellData.getValue().areaProperty());
         balcony.setCellValueFactory(CellData -> CellData.getValue().balconyProperty());
-        isIsolate.setCellValueFactory(CellData -> CellData.getValue().IsolateProperty());
-        PlanningType.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RealEstate, space.vladoff.model.PlanningType>, ObservableValue<space.vladoff.model.PlanningType>>() {
-            @Override
-            public ObservableValue<PlanningType> call(TableColumn.CellDataFeatures<RealEstate, PlanningType> param) {
-                if (param.getValue() instanceof Flat) {
-                    Flat flat = (Flat) param.getValue();
-                    return flat.planProperty();
-                }
-                return new SimpleObjectProperty<space.vladoff.model.PlanningType>(space.vladoff.model.PlanningType.unknown);
-            }
-        });
+        isIsolate.setCellValueFactory(CellData -> CellData.getValue().roomTypeProperty());
+        materialType.setCellValueFactory(CellData -> CellData.getValue().objectMaterialProperty());
+
+        pool.setCellValueFactory(CellData -> (CellData.getValue() instanceof Cottage) ?
+                ((Cottage) CellData.getValue()).poolProperty() : new SimpleObjectProperty<>(Pool.no));
+
+        electricity.setCellValueFactory(CellData -> (CellData.getValue() instanceof House) ?
+                ((House) CellData.getValue()).electricityProperty() : new SimpleObjectProperty<>(ElectricityProperty.yes));
+
+        garage.setCellValueFactory(CellData -> (CellData.getValue() instanceof House) ?
+                ((CellData.getValue() instanceof Cottage) ?
+                        ((Cottage) CellData.getValue()).garageProperty() : new SimpleObjectProperty<>(GarageProperty.noGarage))
+                : new SimpleObjectProperty<>(GarageProperty.noGarage));
+
+        inventory.setCellValueFactory(CellData -> (CellData.getValue() instanceof House) ?
+                ((House) CellData.getValue()).inventoryProperty() : new SimpleObjectProperty<>(Inventory.noInv));
+
+
+        planningType.setCellValueFactory(CellData -> (CellData.getValue() instanceof Flat) ?
+                ((Flat) CellData.getValue()).planProperty() : new SimpleObjectProperty<>(PlanningType.unknown));
     }
 
     public void setDialogStage(Stage viewStage) {
@@ -104,9 +121,9 @@ public class RealEstateViewController {
             // Ничего не выбрано.
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(viewStage);
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
+            alert.setTitle("Ничего не выбрано!");
+            alert.setHeaderText("Объект недвижимости не выбран!");
+            alert.setContentText("Пожалуйста, выберите объект недвижимости в таблице.");
 
             alert.showAndWait();
         }
@@ -122,7 +139,7 @@ public class RealEstateViewController {
 
             // Создаём диалоговое окно Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("Редактирование квартиры");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(viewStage);
             Scene scene = new Scene(page);
@@ -144,18 +161,65 @@ public class RealEstateViewController {
     }
 
     public boolean showRealEstateEditDialog(House house) {
-        //TODO: Implement House edit dialog method and form
-        return false;
+        try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainController.class.getResource("view/HouseEditView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Редактирование дачи");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(viewStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Передаём адресата в контроллер.
+            RealEstateEditViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setRealEstate(house);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean showRealEstateEditDialog(Cottage cottage) {
-        //TODO: Implement Cottage edit dialog method and form
-        return false;
-    }
+        try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainController.class.getResource("view/CottageEditView.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
-    public boolean showRealEstateEditDialog(RealEstate realestate) {
-        //Dummy method
-        return false;
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Редактирование коттеджа");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(viewStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Передаём адресата в контроллер.
+            RealEstateEditViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setRealEstate(cottage);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @FXML
@@ -171,7 +235,7 @@ public class RealEstateViewController {
         List<String> choices = new ArrayList<>();
         choices.add("Квартира");
         choices.add("Коттедж");
-        choices.add("Дом");
+        choices.add("Дача");
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
         dialog.setTitle("Создание нового объекта");
@@ -189,9 +253,10 @@ public class RealEstateViewController {
                     realEstate = new Cottage();
                     okClicked = showRealEstateEditDialog((Cottage) realEstate);
                     break;
-                case "Дом":
+                case "Дача":
                     realEstate = new House();
                     okClicked = showRealEstateEditDialog((House) realEstate);
+                    break;
                 default:
                     return;
             }
@@ -204,7 +269,6 @@ public class RealEstateViewController {
 
     /**
      * Вызывается, когда пользователь кликает по кнопка Edit...
-     * Открывает диалоговое окно для изменения выбранного адресата.
      */
     @FXML
     private void handleEditRealEstate() {
@@ -224,7 +288,7 @@ public class RealEstateViewController {
             alert.initOwner(viewStage);
             alert.setTitle("Ничего не выбрано");
             alert.setHeaderText("Объект недвижимости не выбран");
-            alert.setContentText("Please select a person in the table.");
+            alert.setContentText("Пожалуйста, выберите объект недвижимости.");
 
             alert.showAndWait();
         }

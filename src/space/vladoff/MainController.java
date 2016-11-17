@@ -12,15 +12,14 @@ import space.vladoff.model.*;
 import java.util.ArrayList;
 
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import space.vladoff.model.enums.PlanningType;
 import space.vladoff.view.AgencyBrowseViewController;
-import space.vladoff.view.RealEstateViewController;
 
 public class MainController extends Application {
 

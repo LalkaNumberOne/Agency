@@ -2,8 +2,11 @@ package space.vladoff.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import space.vladoff.model.enums.BalconyProperty;
+import space.vladoff.model.enums.MaterialType;
+import space.vladoff.model.enums.PlanningType;
+import space.vladoff.model.enums.RoomType;
 import space.vladoff.util.FormVisitor;
-import space.vladoff.util.Visitor;
 
 import java.time.LocalDate;
 
@@ -16,8 +19,8 @@ public class Flat extends RealEstate {
     private ObjectProperty<PlanningType> plan;
 
 
-    public Flat(LocalDate dateOfRecord, int objectNumber, Person owner, int roomCount, Adress adress, MaterialType objectMaterial, int floor, double area, boolean balcony, boolean isIsolate, PlanningType plan) {
-        super(dateOfRecord, owner, roomCount, adress, objectMaterial, floor, area, balcony, isIsolate);
+    public Flat(LocalDate dateOfRecord, int objectNumber, Person owner, int roomCount, Adress adress, MaterialType objectMaterial, int floor, double area, BalconyProperty balconyProperty, RoomType roomType, PlanningType plan) {
+        super(dateOfRecord, owner, roomCount, adress, objectMaterial, floor, area, balconyProperty, roomType);
         this.plan = new SimpleObjectProperty<>(plan);
     }
 

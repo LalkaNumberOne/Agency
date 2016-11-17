@@ -1,4 +1,4 @@
-package space.vladoff.model;
+package space.vladoff.model.enums;
 
 /**
  * Created by Vladislav Russinovich on 08.11.2016.
@@ -14,10 +14,24 @@ public enum PlanningType {
 
     fullPlanning {
         public String toString(){
-            return "Полноценная";
+            return "Полногабаритная";
         }
     },
-
+    studioPlaninng {
+        public String toString() {
+            return "Студия";
+        }
+    },
+    lowfamilyPlanning {
+        public String toString() {
+            return "Малосемейка";
+        }
+    },
+    newPlanning {
+        public String toString() {
+            return "Новая";
+        }
+    },
     improvedPlanning {
         public String toString(){
             return "Улучшенная";
