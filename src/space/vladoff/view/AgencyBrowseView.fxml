@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainPackage.view.AgencyBrowseViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="space.vladoff.view.AgencyBrowseViewController">
    <children>
       <BorderPane layoutX="11.0" layoutY="10.0" prefHeight="380.0" prefWidth="580.0">
          <top>
@@ -102,8 +102,10 @@
          <bottom>
             <Pane prefHeight="61.0" prefWidth="580.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="130.0" layoutY="18.0" mnemonicParsing="false" text="Сделки" />
-                  <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Жилые объекты" />
+                   <Button layoutX="130.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleDeals"
+                           text="Сделки"/>
+                   <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleRealEstates"
+                           text="Жилые объекты"/>
                </children>
             </Pane>
          </bottom>

@@ -1,4 +1,4 @@
-package mainPackage.Model;
+package space.vladoff.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -26,9 +26,9 @@ public class Adress {
         this(null,null,null,null);
     }
 
-    public StringProperty getCity() {
+    public String getCity() {
 
-        return city;
+        return city.get();
     }
 
     public StringProperty cityProperty() {
@@ -97,5 +97,18 @@ public class Adress {
         result = 31 * result + (getBuildNo() != null ? getBuildNo().hashCode() : 0);
         result = 31 * result + (getApartNo() != null ? getApartNo().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getCity());
+        sb.append("\n");
+        sb.append(getStreet());
+        sb.append("\n");
+        sb.append(getBuildNo());
+        sb.append(", ");
+        sb.append(getApartNo());
+        return sb.toString();
     }
 }

@@ -1,4 +1,4 @@
-package mainPackage.Model;
+package space.vladoff.model;
 
 import java.util.ArrayList;
 import javafx.beans.property.*;
@@ -179,4 +179,9 @@ public class RealEstateAgency {
         return result;
     }
 
+
+    @Override
+    public String toString() {
+        return getAgencyName();
+    }
 }

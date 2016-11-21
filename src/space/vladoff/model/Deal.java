@@ -1,4 +1,4 @@
-package mainPackage.Model;
+package space.vladoff.model;
 
 import java.time.LocalDate;
 

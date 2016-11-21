@@ -1,4 +1,4 @@
-package mainPackage.Model;
+package space.vladoff.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -79,5 +79,16 @@ public class Person {
         result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
         result = 31 * result + (getMiddleName() != null ? getMiddleName().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(getLastName());
+        sb.append("\n");
+        sb.append(getFirstName());
+        sb.append("\n");
+        sb.append(getMiddleName());
+            return sb.toString();
     }
 }

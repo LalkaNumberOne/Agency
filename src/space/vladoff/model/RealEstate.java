@@ -1,111 +1,54 @@
-package mainPackage.Model; /**
+package space.vladoff.model;
+/**
  * Created by Vladislav Russinovich on 07.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
 import javafx.beans.property.*;
+import space.vladoff.model.enums.BalconyProperty;
+import space.vladoff.model.enums.MaterialType;
+import space.vladoff.model.enums.RoomType;
 
 import java.time.LocalDate;
-import java.util.Date;
-
-enum RealEstateType {
-    apartment {
-        public String toString(){
-            return "Apartment";
-        }
-    },
-    house {
-        public String toString(){
-            return "House";
-        }
-    },
-    cottage {
-        public String toString(){
-            return "Cottage";
-        }
-    },
-    unknown {
-        public String toString() {return "Unknown";}
-    }
-}
-
-enum MaterialType {
-    brick {
-        public String toString(){
-            return "Brick";
-        }
-    },
-    pane {
-        public String toString(){
-            return "Pane";
-        }
-    },
-    unknown {
-        public String toString() {return "Unknown";}
-    }
-}
-
-enum PlanningType {
-    khrushevPlanning {
-        public String toString() {
-            return "Khrushev Planning";
-        }
-    },
-
-    fullPlanning {
-        public String toString(){
-            return "Full Planning";
-        }
-    },
-
-    improvedPlanning {
-        public String toString(){
-            return "Improved Planning";
-        }
-    },
-    unknown {
-        public String toString() {return "Unknown";}
-    }
-
-}
 
 public class RealEstate {
     private ObjectProperty<LocalDate> dateOfRecord;
     private IntegerProperty objectNumber;
     private ObjectProperty<Person> owner;
-    private RealEstateType objectType;
     private IntegerProperty roomCount;
     private ObjectProperty<Adress> adress;
-    private MaterialType objectMaterial;
+    private ObjectProperty<MaterialType> objectMaterial;
     private IntegerProperty floor;
     private DoubleProperty area;
-    private boolean balcony;
-    private boolean isIsolate;
-    private PlanningType plan;
+    private ObjectProperty<BalconyProperty> balcony;
+    private ObjectProperty<RoomType> roomType;
 
-    public RealEstate(LocalDate dateOfRecord, int objectNumber, Person owner,
-                      RealEstateType objectType, int roomCount, Adress adress,
-                      MaterialType objectMaterial, int floor, double area,
-                      boolean balcony, boolean isIsolate, PlanningType plan) {
+    public RealEstate(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
+                      MaterialType objectMaterial, int floor, double area, BalconyProperty balconyProperty, RoomType roomType) {
         this.dateOfRecord = new SimpleObjectProperty<>((dateOfRecord!=null) ? dateOfRecord : LocalDate.now());
-        this.objectNumber = new SimpleIntegerProperty(objectNumber);
         this.owner = new SimpleObjectProperty<>((owner!=null) ? owner : new Person());
-        this.objectType = objectType;
         this.roomCount = new SimpleIntegerProperty(roomCount);
         this.adress = new SimpleObjectProperty<>((adress!=null)? adress: new Adress());
-        this.objectMaterial = objectMaterial;
+        this.objectMaterial = new SimpleObjectProperty<>(objectMaterial);
         this.floor = new SimpleIntegerProperty(floor);
         this.area = new SimpleDoubleProperty(area);
-        this.balcony = balcony;
-        this.isIsolate = isIsolate;
-        this.plan = plan;
+        this.balcony = new SimpleObjectProperty<>(balconyProperty);
+        this.roomType = new SimpleObjectProperty<>(roomType);
+        this.objectNumber = new SimpleIntegerProperty(0);
     }
 
     public RealEstate()
     {
-        this(null,0,null,RealEstateType.unknown,0,null,MaterialType.unknown,0,0,false,false,PlanningType.unknown);
+        this(null, null, 0, null, MaterialType.unknown, 0, 0, BalconyProperty.noBalcony, RoomType.other);
     }
 
+    /**
+     * Getters and Setters
+     */
+
+    /**
+     * @return gives date of record in LocalDate type
+     */
     public LocalDate getDateOfRecord() {
         return dateOfRecord.get();
     }
@@ -142,14 +85,6 @@ public class RealEstate {
         this.owner.set(owner);
     }
 
-    public RealEstateType getObjectType() {
-        return objectType;
-    }
-
-    public void setObjectType(RealEstateType objectType) {
-        this.objectType = objectType;
-    }
-
     public int getRoomCount() {
         return roomCount.get();
     }
@@ -175,11 +110,15 @@ public class RealEstate {
     }
 
     public MaterialType getObjectMaterial() {
+        return objectMaterial.get();
+    }
+
+    public ObjectProperty<MaterialType> objectMaterialProperty() {
         return objectMaterial;
     }
 
     public void setObjectMaterial(MaterialType objectMaterial) {
-        this.objectMaterial = objectMaterial;
+        this.objectMaterial.set(objectMaterial);
     }
 
     public int getFloor() {
@@ -206,28 +145,28 @@ public class RealEstate {
         this.area.set(area);
     }
 
-    public boolean isBalcony() {
+    public BalconyProperty getBalcony() {
+        return balcony.get();
+    }
+
+    public ObjectProperty<BalconyProperty> balconyProperty() {
         return balcony;
     }
 
-    public void setBalcony(boolean balcony) {
-        this.balcony = balcony;
+    public void setBalcony(BalconyProperty balcony) {
+        this.balcony.set(balcony);
     }
 
-    public boolean isolate() {
-        return isIsolate;
+    public RoomType getRoomType() {
+        return roomType.get();
     }
 
-    public void setIsolate(boolean isolate) {
-        isIsolate = isolate;
+    public ObjectProperty<RoomType> roomTypeProperty() {
+        return roomType;
     }
 
-    public PlanningType getPlan() {
-        return plan;
-    }
-
-    public void setPlan(PlanningType plan) {
-        this.plan = plan;
+    public void setRoomType(RoomType roomType) {
+        this.roomType.set(roomType);
     }
 
     @Override
@@ -237,19 +176,17 @@ public class RealEstate {
 
         RealEstate that = (RealEstate) o;
 
-        if (isBalcony() != that.isBalcony()) return false;
-        if (isIsolate != that.isIsolate) return false;
         if (getDateOfRecord() != null ? !getDateOfRecord().equals(that.getDateOfRecord()) : that.getDateOfRecord() != null)
             return false;
         if (getObjectNumber()!=that.getObjectNumber()) return false;
         if (getOwner() != null ? !getOwner().equals(that.getOwner()) : that.getOwner() != null) return false;
-        if (getObjectType() != that.getObjectType()) return false;
         if (getRoomCount()!=that.getRoomCount()) return false;
         if (getAdress() != null ? !getAdress().equals(that.getAdress()) : that.getAdress() != null) return false;
         if (getObjectMaterial() != that.getObjectMaterial()) return false;
+        if (getBalcony() != that.getBalcony()) return false;
+        if (getRoomType() != that.getRoomType()) return false;
         if (getFloor()!=that.getFloor()) return false;
-        if (getArea()!=that.getArea()) return false;
-        return getPlan() == that.getPlan();
+        return  (getArea()==that.getArea());
 
     }
 
@@ -258,15 +195,13 @@ public class RealEstate {
         int result = getDateOfRecord() != null ? getDateOfRecord().hashCode() : 0;
         result = 31 * result + new Integer(getObjectNumber()).hashCode();
         result = 31 * result + (getOwner() != null ? getOwner().hashCode() : 0);
-        result = 31 * result + (getObjectType() != null ? getObjectType().hashCode() : 0);
         result = 31 * result + new Integer(getRoomCount()).hashCode();
         result = 31 * result + (getAdress() != null ? getAdress().hashCode() : 0);
         result = 31 * result + (getObjectMaterial() != null ? getObjectMaterial().hashCode() : 0);
         result = 31 * result + new Integer(getFloor()).hashCode();
         result = 31 * result + new Double(getArea()).hashCode();
-        result = 31 * result + (isBalcony() ? 1 : 0);
-        result = 31 * result + (isIsolate ? 1 : 0);
-        result = 31 * result + (getPlan() != null ? getPlan().hashCode() : 0);
+        result = 31 * result + (getBalcony() != null ? getBalcony().hashCode() : 0);
+        result = 31 * result + (getRoomType() != null ? getRoomType().hashCode() : 0);
         return result;
     }
 }
