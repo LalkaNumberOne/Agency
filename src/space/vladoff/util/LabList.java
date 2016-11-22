@@ -53,7 +53,7 @@ public class LabList<E> {
      */
     void linkLast(E e) {
         final Node<E> l = last;
-        final Node<E> newNode = new Node<>(e, null, l);
+        final Node<E> newNode = new Node<>(e, l, null);
         last = newNode;
         if (l == null)
             first = newNode;
