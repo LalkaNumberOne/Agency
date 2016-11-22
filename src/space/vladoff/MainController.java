@@ -18,7 +18,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import space.vladoff.model.enums.BalconyProperty;
+import space.vladoff.model.enums.MaterialType;
 import space.vladoff.model.enums.PlanningType;
+import space.vladoff.util.LabList;
 import space.vladoff.view.AgencyBrowseViewController;
 
 public class MainController extends Application {
@@ -67,7 +70,9 @@ public class MainController extends Application {
 
 
     public MainController() {
-        ArrayList<RealEstate> simpleList = new ArrayList<>();
+        LabList<RealEstate> simpleList = new LabList<>();
+        //simplelist.add(new House(null, new Person("Иван", "Иванов", "Иванович"), 5, new Adress("Новосибирск", "Ленина", "1", "12"), MaterialType.monolit,2,103.2, BalconyProperty.loggi,RoomType.));
+        //simplelist.add(new House())
         simpleList.add(new Flat(PlanningType.improvedPlanning));
         simpleList.add(new Flat(PlanningType.khrushevPlanning));
         agencyData.add(new RealEstateAgency("Котлетка"));

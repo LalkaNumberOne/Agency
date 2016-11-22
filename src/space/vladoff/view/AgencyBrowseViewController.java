@@ -15,6 +15,7 @@ import space.vladoff.model.Deal;
 import space.vladoff.model.RealEstate;
 import space.vladoff.model.RealEstateAgency;
 import javafx.scene.control.Label;
+import space.vladoff.util.LabList;
 
 import java.io.IOException;
 import java.sql.Array;
@@ -161,21 +162,21 @@ public class AgencyBrowseViewController {
         }
     }
 
-    public ArrayList<RealEstate> getRealEstateData() {
+    public LabList<RealEstate> getRealEstateData() {
         return agencys.getSelectionModel().getSelectedItem().getEstates();
     }
 
-    public void setRealEstateData(ArrayList<RealEstate> estate) {
+    public void setRealEstateData(LabList<RealEstate> estate) {
         agencys.getSelectionModel().getSelectedItem().setEstates(estate);
         agencys.getSelectionModel().getSelectedItem().setHouseCount(estate.size());
     }
 
-    public void setDealsData(ArrayList<Deal> deals) {
+    public void setDealsData(LabList<Deal> deals) {
         agencys.getSelectionModel().getSelectedItem().setDeals(deals);
         agencys.getSelectionModel().getSelectedItem().setDealCount(deals.size());
     }
 
-    public ArrayList<Deal> getDealsData() {
+    public LabList<Deal> getDealsData() {
         return agencys.getSelectionModel().getSelectedItem().getDeals();
     }
 
@@ -195,7 +196,10 @@ public class AgencyBrowseViewController {
             bankNameLabel.setText(agency.getRequisite().getBankName());
             BIKLabel.setText(agency.getRequisite().getBIK());
             accountLabel.setText(agency.getRequisite().getAccount());
-            realEstateObservableList = FXCollections.observableArrayList(agency.getEstates());
+            realEstateObservableList = FXCollections.observableArrayList();
+            for (int i = 0; i < agency.getEstates().size(); i++) {
+                realEstateObservableList.add(agency.getEstates().get(i));
+            }
         } else {
             agencyNameLabel.setText("");
             billSumLabel.setText("");

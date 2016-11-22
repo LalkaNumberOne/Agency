@@ -2,6 +2,7 @@ package space.vladoff.model;
 
 import java.util.ArrayList;
 import javafx.beans.property.*;
+import space.vladoff.util.LabList;
 
 /**
  * Created by Vladislav Russinovich on 07.10.2016.
@@ -14,21 +15,21 @@ public class RealEstateAgency {
     private ObjectProperty<Requisite> requisite;
     private DoubleProperty billSum;
     private IntegerProperty houseCount;
-    private ArrayList<RealEstate> estates;
+    private LabList<RealEstate> estates;
     private IntegerProperty dealCount;
-    private ArrayList<Deal> deals;
+    private LabList<Deal> deals;
     private IntegerProperty rateOfReturn;
 
-    public RealEstateAgency(String agencyName, String licenseNumber, Requisite requisite, double billSum, ArrayList<RealEstate> estates, ArrayList<Deal> deals, int rateOfReturn) {
+    public RealEstateAgency(String agencyName, String licenseNumber, Requisite requisite, double billSum, LabList<RealEstate> estates, LabList<Deal> deals, int rateOfReturn) {
         this.agencyName = new SimpleStringProperty(agencyName);
         this.licenseNumber = new SimpleStringProperty(licenseNumber);
         this.requisite = new SimpleObjectProperty<>((requisite!=null) ? requisite : new Requisite());
         this.billSum = new SimpleDoubleProperty(billSum);
-        this.estates = (estates!=null)? estates: new ArrayList<>(0);
+        this.estates = (estates != null) ? estates : new LabList<>();
         try {
             this.houseCount = new SimpleIntegerProperty(estates.size());
         } catch (NullPointerException e) { this.houseCount = new SimpleIntegerProperty(0); }
-        this.deals = (deals!=null)? deals: new ArrayList<>(0);
+        this.deals = (deals != null) ? deals : new LabList<>();
         try {
             this.dealCount = new SimpleIntegerProperty(deals.size());
         } catch (NullPointerException e) { this.dealCount = new SimpleIntegerProperty(0); }
@@ -104,11 +105,11 @@ public class RealEstateAgency {
         this.houseCount.set(houseCount);
     }
 
-    public ArrayList<RealEstate> getEstates() {
+    public LabList<RealEstate> getEstates() {
         return estates;
     }
 
-    public void setEstates(ArrayList<RealEstate> estates) {
+    public void setEstates(LabList<RealEstate> estates) {
         this.estates = estates;
     }
 
@@ -124,11 +125,11 @@ public class RealEstateAgency {
         this.dealCount.set(dealCount);
     }
 
-    public ArrayList<Deal> getDeals() {
+    public LabList<Deal> getDeals() {
         return deals;
     }
 
-    public void setDeals(ArrayList<Deal> deals) {
+    public void setDeals(LabList<Deal> deals) {
         this.deals = deals;
     }
 

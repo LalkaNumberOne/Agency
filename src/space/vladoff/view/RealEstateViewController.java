@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import space.vladoff.MainController;
 import space.vladoff.model.*;
 import space.vladoff.model.enums.*;
+import space.vladoff.util.LabList;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -65,7 +66,7 @@ public class RealEstateViewController {
     private AgencyBrowseViewController controller;
 
     private ObservableList<RealEstate> realEstateObservableList;
-    private ArrayList<RealEstate> realEstateArrayList;
+    private LabList<RealEstate> realEstateArrayList;
 
     @FXML
     private void initialize() {
@@ -106,7 +107,10 @@ public class RealEstateViewController {
     public void setMainController(AgencyBrowseViewController controller) {
         this.controller = controller;
         realEstateArrayList = controller.getRealEstateData();
-        realEstateObservableList = FXCollections.observableArrayList(realEstateArrayList);
+        realEstateObservableList = FXCollections.observableArrayList();
+        for (int i = 0; i < realEstateArrayList.size(); i++) {
+            realEstateObservableList.add(realEstateArrayList.get(i));
+        }
         realEstateTable.setItems(realEstateObservableList);
     }
 

@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import space.vladoff.MainController;
 import space.vladoff.model.*;
+import space.vladoff.util.LabList;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -42,7 +43,7 @@ public class DealsViewController {
     private AgencyBrowseViewController controller;
 
     private ObservableList<Deal> dealObservableList;
-    private ArrayList<Deal> dealArrayList;
+    private LabList<Deal> dealArrayList;
 
     @FXML
     private void initialize() {
@@ -61,7 +62,10 @@ public class DealsViewController {
     public void setMainController(AgencyBrowseViewController controller) {
         this.controller = controller;
         dealArrayList = controller.getDealsData();
-        dealObservableList = FXCollections.observableArrayList(dealArrayList);
+        dealObservableList = FXCollections.observableArrayList();
+        for (int i = 0; i < dealArrayList.size(); i++) {
+            dealObservableList.add(dealArrayList.get(i));
+        }
         dealTableView.setItems(dealObservableList);
     }
 
