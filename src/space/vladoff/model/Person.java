@@ -2,15 +2,21 @@ package space.vladoff.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * Created by Vladislav Russinovich on 07.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class Person {
-    private StringProperty firstName;
-    private StringProperty lastName;
-    private StringProperty middleName;
+public class Person implements Serializable {
+    private transient StringProperty firstName;
+    private transient StringProperty lastName;
+    private transient StringProperty middleName;
 
     public Person(String firstName, String lastName, String middleName){
         this.firstName = new SimpleStringProperty(firstName);
@@ -90,5 +96,20 @@ public class Person {
         sb.append("\n");
         sb.append(getMiddleName());
             return sb.toString();
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeObject(getFirstName());
+        oos.writeObject(getLastName());
+        oos.writeObject(getMiddleName());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        this.firstName = new SimpleStringProperty((String) ois.readObject());
+        this.lastName = new SimpleStringProperty((String) ois.readObject());
+        this.middleName = new SimpleStringProperty((String) ois.readObject());
     }
 }

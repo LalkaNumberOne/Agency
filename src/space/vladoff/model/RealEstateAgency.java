@@ -1,6 +1,12 @@
 package space.vladoff.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.*;
 import space.vladoff.util.LabList;
 
@@ -9,16 +15,16 @@ import space.vladoff.util.LabList;
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class RealEstateAgency {
-    private StringProperty agencyName;
-    private StringProperty licenseNumber;
-    private ObjectProperty<Requisite> requisite;
-    private DoubleProperty billSum;
-    private IntegerProperty houseCount;
-    private LabList<RealEstate> estates;
-    private IntegerProperty dealCount;
-    private LabList<Deal> deals;
-    private IntegerProperty rateOfReturn;
+public class RealEstateAgency implements Serializable {
+    private transient StringProperty agencyName;
+    private transient StringProperty licenseNumber;
+    private transient ObjectProperty<Requisite> requisite;
+    private transient DoubleProperty billSum;
+    private transient IntegerProperty houseCount;
+    private transient List<RealEstate> estates;
+    private transient IntegerProperty dealCount;
+    private transient List<Deal> deals;
+    private transient IntegerProperty rateOfReturn;
 
     public RealEstateAgency(String agencyName, String licenseNumber, Requisite requisite, double billSum, LabList<RealEstate> estates, LabList<Deal> deals, int rateOfReturn) {
         this.agencyName = new SimpleStringProperty(agencyName);
@@ -105,11 +111,11 @@ public class RealEstateAgency {
         this.houseCount.set(houseCount);
     }
 
-    public LabList<RealEstate> getEstates() {
+    public List<RealEstate> getEstates() {
         return estates;
     }
 
-    public void setEstates(LabList<RealEstate> estates) {
+    public void setEstates(List<RealEstate> estates) {
         this.estates = estates;
     }
 
@@ -125,11 +131,11 @@ public class RealEstateAgency {
         this.dealCount.set(dealCount);
     }
 
-    public LabList<Deal> getDeals() {
+    public List<Deal> getDeals() {
         return deals;
     }
 
-    public void setDeals(LabList<Deal> deals) {
+    public void setDeals(List<Deal> deals) {
         this.deals = deals;
     }
 
@@ -184,5 +190,30 @@ public class RealEstateAgency {
     @Override
     public String toString() {
         return getAgencyName();
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeObject(getAgencyName());
+        oos.writeObject(getLicenseNumber());
+        oos.writeObject(getRequisite());
+        oos.writeDouble(getBillSum());
+        oos.writeObject(getEstates());
+        oos.writeObject(getDeals());
+        oos.writeInt(getRateOfReturn());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        this.agencyName = new SimpleStringProperty((String) ois.readObject());
+        this.licenseNumber = new SimpleStringProperty((String) ois.readObject());
+        this.requisite = new SimpleObjectProperty<>((Requisite) ois.readObject());
+        this.billSum = new SimpleDoubleProperty(ois.readDouble());
+        this.estates = (LabList) ois.readObject();
+        this.houseCount = new SimpleIntegerProperty(estates.size());
+        this.deals = (LabList) ois.readObject();
+        this.dealCount = new SimpleIntegerProperty(deals.size());
+        this.rateOfReturn = new SimpleIntegerProperty(ois.readInt());
     }
 }

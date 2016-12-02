@@ -16,6 +16,7 @@ import space.vladoff.util.LabList;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vladislav Russinovich on 18.11.2016.
@@ -43,7 +44,7 @@ public class DealsViewController {
     private AgencyBrowseViewController controller;
 
     private ObservableList<Deal> dealObservableList;
-    private LabList<Deal> dealArrayList;
+    private List<Deal> dealArrayList;
 
     @FXML
     private void initialize() {

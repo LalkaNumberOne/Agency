@@ -5,6 +5,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import space.vladoff.model.enums.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 
 /**
@@ -13,9 +16,9 @@ import java.time.LocalDate;
  * Licensed under WTFPL
  */
 public class House extends RealEstate {
-    private ObjectProperty<ElectricityProperty> electricity;
-    private ObjectProperty<GarageProperty> garage;
-    private ObjectProperty<Inventory> inventory;
+    private transient ObjectProperty<ElectricityProperty> electricity;
+    private transient ObjectProperty<GarageProperty> garage;
+    private transient ObjectProperty<Inventory> inventory;
 
     public House(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
                  MaterialType objectMaterial, int floor, double area,
@@ -88,6 +91,22 @@ public class House extends RealEstate {
         if (getGarage() != house.getGarage()) return false;
         return getInventory() == house.getInventory();
 
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeInt(getElectricity().ordinal());
+        oos.writeInt(getGarage().ordinal());
+        oos.writeInt(getInventory().ordinal());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+
+        this.electricity = new SimpleObjectProperty<>(ElectricityProperty.values()[ois.readInt()]);
+        this.garage = new SimpleObjectProperty<>(GarageProperty.values()[ois.readInt()]);
+        this.inventory = new SimpleObjectProperty<>(Inventory.values()[ois.readInt()]);
     }
 
     @Override

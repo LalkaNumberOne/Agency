@@ -1,5 +1,9 @@
 package space.vladoff.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javafx.beans.property.*;
@@ -8,13 +12,13 @@ import javafx.beans.property.*;
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class Deal {
-    private ObjectProperty<LocalDate> dateOfDeal;
-    private IntegerProperty objectNumber;
-    private ObjectProperty<Person> customer;
-    private DoubleProperty cost;
-    private DoubleProperty tax;
-    private DoubleProperty insurance;
+public class Deal implements Serializable {
+    private transient ObjectProperty<LocalDate> dateOfDeal;
+    private transient IntegerProperty objectNumber;
+    private transient ObjectProperty<Person> customer;
+    private transient DoubleProperty cost;
+    private transient DoubleProperty tax;
+    private transient DoubleProperty insurance;
 
     public Deal(LocalDate dateOfDeal, int objectNumber, Person customer, double cost, double tax, double insurance)
     {
@@ -129,5 +133,26 @@ public class Deal {
         result = 31 * result + new Double(getTax()).hashCode();
         result = 31 * result + new Double(getInsurance()).hashCode();
         return result;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(getDateOfDeal());
+        oos.writeInt(getObjectNumber());
+        oos.writeObject(getCustomer());
+        oos.writeDouble(getCost());
+        oos.writeDouble(getTax());
+        oos.writeDouble(getInsurance());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+
+        this.dateOfDeal = new SimpleObjectProperty<>((LocalDate) ois.readObject());
+        this.objectNumber = new SimpleIntegerProperty(ois.readInt());
+        this.customer = new SimpleObjectProperty<>((Person) ois.readObject());
+        this.cost = new SimpleDoubleProperty(ois.readDouble());
+        this.tax = new SimpleDoubleProperty(ois.readDouble());
+        this.insurance = new SimpleDoubleProperty(ois.readDouble());
     }
 }

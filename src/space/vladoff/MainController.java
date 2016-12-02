@@ -79,10 +79,10 @@ public class MainController extends Application {
         agencyData.add(new RealEstateAgency("Мир ковров"));
         agencyData.add(new RealEstateAgency("Сбербанк"));
         agencyData.add(new RealEstateAgency("Шляпа"));
-        RealEstateAgency real = new RealEstateAgency("Левобережное", "32564342443",
+       /* RealEstateAgency real = new RealEstateAgency("Левобережное", "32564342443",
                 new Requisite("7728168971", "775001001", "Альфа-банк", "4434682008452", "543234880085043852"),
                 2500.46, simpleList, null, 120);
-        agencyData.add(real);
+        agencyData.add(real);*/
     }
 
     /**

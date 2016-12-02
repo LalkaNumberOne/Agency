@@ -8,6 +8,9 @@ import space.vladoff.model.enums.PlanningType;
 import space.vladoff.model.enums.RoomType;
 import space.vladoff.util.FormVisitor;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 
 /**
@@ -16,7 +19,7 @@ import java.time.LocalDate;
  * Licensed under WTFPL
  */
 public class Flat extends RealEstate {
-    private ObjectProperty<PlanningType> plan;
+    private transient ObjectProperty<PlanningType> plan;
 
 
     public Flat(LocalDate dateOfRecord, int objectNumber, Person owner, int roomCount, Adress adress, MaterialType objectMaterial, int floor, double area, BalconyProperty balconyProperty, RoomType roomType, PlanningType plan) {
@@ -51,5 +54,17 @@ public class Flat extends RealEstate {
     @Override
     public String toString() {
         return "Квартира";
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeInt(getPlan().ordinal());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+
+        this.plan = new SimpleObjectProperty<>(PlanningType.values()[ois.readInt()]);
     }
 }

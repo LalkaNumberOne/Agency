@@ -106,6 +106,10 @@
                            text="Сделки"/>
                    <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleRealEstates"
                            text="Жилые объекты"/>
+                   <Button layoutX="498.0" layoutY="18.0" mnemonicParsing="false" onAction="#addFileToList"
+                           text="Открыть.."/>
+                   <Button layoutX="405.0" layoutY="18.0" mnemonicParsing="false" onAction="#writeFromListToFile"
+                           text="Сохранить..."/>
                </children>
             </Pane>
          </bottom>

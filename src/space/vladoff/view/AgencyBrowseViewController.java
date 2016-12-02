@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import space.vladoff.MainController;
@@ -17,9 +18,10 @@ import space.vladoff.model.RealEstateAgency;
 import javafx.scene.control.Label;
 import space.vladoff.util.LabList;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vladislav Russinovich on 20.10.2016.
@@ -60,6 +62,8 @@ public class AgencyBrowseViewController {
     ComboBox<RealEstateAgency> agencys;
 
     ObservableList<RealEstate> realEstateObservableList;
+
+    FileChooser fileChooser = new FileChooser();
 
 
     public AgencyBrowseViewController() {
@@ -162,24 +166,97 @@ public class AgencyBrowseViewController {
         }
     }
 
-    public LabList<RealEstate> getRealEstateData() {
+    public List<RealEstate> getRealEstateData() {
         return agencys.getSelectionModel().getSelectedItem().getEstates();
     }
 
-    public void setRealEstateData(LabList<RealEstate> estate) {
+    public void setRealEstateData(List<RealEstate> estate) {
         agencys.getSelectionModel().getSelectedItem().setEstates(estate);
         agencys.getSelectionModel().getSelectedItem().setHouseCount(estate.size());
     }
 
-    public void setDealsData(LabList<Deal> deals) {
+    public void setDealsData(List<Deal> deals) {
         agencys.getSelectionModel().getSelectedItem().setDeals(deals);
         agencys.getSelectionModel().getSelectedItem().setDealCount(deals.size());
     }
 
-    public LabList<Deal> getDealsData() {
+    public List<Deal> getDealsData() {
         return agencys.getSelectionModel().getSelectedItem().getDeals();
     }
 
+
+    @FXML
+    private void addFileToList() {
+        fileChooser.setTitle("Открыть агентство");
+        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+        if (file != null) {
+            readFile(file);
+        }
+    }
+
+    private void readFile(File file) {
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            ObjectInputStream oin = new ObjectInputStream(fin);
+            RealEstateAgency rea = (RealEstateAgency) oin.readObject();
+            list.add(rea);
+            oin.close();
+            fin.close();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("ОШИБКА!");
+            alert.setHeaderText("ФАЙЛ ПОВРЕЖДЕН,ИМЕЕТ НЕВЕРНЫЙ ФОРМАТ ИЛИ НЕ СУЩЕСТВУЕТ");
+            alert.setContentText("ФАЙЛ ПОВРЕЖДЕН, ИМЕЕТ НЕВЕРНЫЙ ФОРМАТ ИЛИ НЕ СУЩЕСТВУЕТ");
+
+            alert.showAndWait();
+        } catch (ClassNotFoundException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("ОШИБКА!");
+            alert.setHeaderText("ФАЙЛ ПОВРЕЖДЕН ИЛИ ИМЕЕТ НЕВЕРНЫЙ ФОРМАТ");
+            alert.setContentText("ВЫБЕРИТЕ СУЩЕСТВУЮЩИЙ ФАЙЛ");
+
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void writeFromListToFile() {
+        if (agencys.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Внимание!");
+            alert.setHeaderText("Не выбрано агентство.");
+            alert.setContentText("Выберите агентство, пожалуйста.");
+
+            alert.showAndWait();
+        } else {
+            fileChooser.setTitle("Сохранить агентство");
+            File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+            if (file != null) {
+                saveFile(file);
+            }
+        }
+    }
+
+    private void saveFile(File file) {
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(agencys.getSelectionModel().getSelectedItem());
+            oos.flush();
+            oos.close();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("ОШИБКА!");
+            alert.setHeaderText("ФАЙЛ НЕ СУЩЕСТВУЕТ");
+            alert.setContentText("ВЫБЕРИТЕ СУЩЕСТВУЮЩИЙ ФАЙЛ");
+
+            alert.showAndWait();
+        }
+    }
 
 
     //Метод вывода информации об агентстве на форму

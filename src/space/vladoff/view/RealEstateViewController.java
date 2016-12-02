@@ -66,7 +66,7 @@ public class RealEstateViewController {
     private AgencyBrowseViewController controller;
 
     private ObservableList<RealEstate> realEstateObservableList;
-    private LabList<RealEstate> realEstateArrayList;
+    private List<RealEstate> realEstateArrayList;
 
     @FXML
     private void initialize() {
@@ -150,7 +150,7 @@ public class RealEstateViewController {
             dialogStage.setScene(scene);
 
             // Передаём адресата в контроллер.
-            FlatEditViewController controller = loader.getController();
+            RealEstateEditViewController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setRealEstate(flat);
 
@@ -234,7 +234,7 @@ public class RealEstateViewController {
     @FXML
     private void handleNewRealEstate() {
         boolean okClicked = false;
-        RealEstate realEstate = new RealEstate();
+        RealEstate realEstate = null;
 
         List<String> choices = new ArrayList<>();
         choices.add("Квартира");

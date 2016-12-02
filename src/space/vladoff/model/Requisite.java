@@ -2,17 +2,20 @@ package space.vladoff.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import java.io.*;
+
 /**
  * Created by Vladislav Russinovich on 07.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class Requisite {
-    private StringProperty INN; //12 цифр
-    private StringProperty KPP; //8-9 цифр
-    private StringProperty bankName;
-    private StringProperty BIK; //9 цифр
-    private StringProperty account; //20 цифр
+public class Requisite implements Serializable {
+    private transient StringProperty INN; //12 цифр
+    private transient StringProperty KPP; //8-9 цифр
+    private transient StringProperty bankName;
+    private transient StringProperty BIK; //9 цифр
+    private transient StringProperty account; //20 цифр
 
     public Requisite(String INN, String KPP, String bankName, String BIK, String account) {
         this.INN = new SimpleStringProperty(INN);
@@ -109,6 +112,24 @@ public class Requisite {
         result = 31 * result + (BIK != null ? BIK.hashCode() : 0);
         result = 31 * result + (account != null ? account.hashCode() : 0);
         return result;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(getINN());
+        oos.writeObject(getKPP());
+        oos.writeObject(getBankName());
+        oos.writeObject(getBIK());
+        oos.writeObject(getAccount());
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        INN = new SimpleStringProperty((String) ois.readObject());
+        KPP = new SimpleStringProperty((String) ois.readObject());
+        bankName = new SimpleStringProperty((String) ois.readObject());
+        BIK = new SimpleStringProperty((String) ois.readObject());
+        account = new SimpleStringProperty((String) ois.readObject());
     }
 }
 

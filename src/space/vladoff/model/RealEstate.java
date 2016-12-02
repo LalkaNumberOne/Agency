@@ -9,19 +9,23 @@ import space.vladoff.model.enums.BalconyProperty;
 import space.vladoff.model.enums.MaterialType;
 import space.vladoff.model.enums.RoomType;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class RealEstate {
-    private ObjectProperty<LocalDate> dateOfRecord;
-    private IntegerProperty objectNumber;
-    private ObjectProperty<Person> owner;
-    private IntegerProperty roomCount;
-    private ObjectProperty<Adress> adress;
-    private ObjectProperty<MaterialType> objectMaterial;
-    private IntegerProperty floor;
-    private DoubleProperty area;
-    private ObjectProperty<BalconyProperty> balcony;
-    private ObjectProperty<RoomType> roomType;
+public abstract class RealEstate implements Serializable {
+    private transient ObjectProperty<LocalDate> dateOfRecord;
+    private transient IntegerProperty objectNumber;
+    private transient ObjectProperty<Person> owner;
+    private transient IntegerProperty roomCount;
+    private transient ObjectProperty<Adress> adress;
+    private transient ObjectProperty<MaterialType> objectMaterial;
+    private transient IntegerProperty floor;
+    private transient DoubleProperty area;
+    private transient ObjectProperty<BalconyProperty> balcony;
+    private transient ObjectProperty<RoomType> roomType;
 
     public RealEstate(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
                       MaterialType objectMaterial, int floor, double area, BalconyProperty balconyProperty, RoomType roomType) {
@@ -203,5 +207,34 @@ public class RealEstate {
         result = 31 * result + (getBalcony() != null ? getBalcony().hashCode() : 0);
         result = 31 * result + (getRoomType() != null ? getRoomType().hashCode() : 0);
         return result;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeObject(getDateOfRecord());
+        oos.writeObject(getOwner());
+        oos.writeInt(getRoomCount());
+        oos.writeObject(getAdress());
+        oos.writeInt(getObjectMaterial().ordinal());
+        oos.writeInt(getFloor());
+        oos.writeDouble(getArea());
+        oos.writeInt(getBalcony().ordinal());
+        oos.writeInt(getRoomType().ordinal());
+        oos.writeInt(getObjectNumber());
+    }
+
+    private void readObject(ObjectInputStream ios) throws IOException, ClassNotFoundException {
+        ios.defaultReadObject();
+        this.dateOfRecord = new SimpleObjectProperty<>((LocalDate) ios.readObject());
+        this.owner = new SimpleObjectProperty<>((Person) ios.readObject());
+        this.roomCount = new SimpleIntegerProperty(ios.readInt());
+        this.adress = new SimpleObjectProperty<>((Adress) ios.readObject());
+        this.objectMaterial = new SimpleObjectProperty<>(MaterialType.values()[ios.readInt()]);
+        this.floor = new SimpleIntegerProperty(ios.readInt());
+        this.area = new SimpleDoubleProperty(ios.readDouble());
+        this.balcony = new SimpleObjectProperty<>(BalconyProperty.values()[ios.readInt()]);
+        this.roomType = new SimpleObjectProperty<>(RoomType.values()[ios.readInt()]);
+        this.objectNumber = new SimpleIntegerProperty(ios.readInt());
     }
 }

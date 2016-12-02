@@ -2,17 +2,23 @@ package space.vladoff.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  *
  * Created by Vladislav Russinovich on 07.10.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class Adress {
-    private StringProperty city;
-    private StringProperty street;
-    private StringProperty buildNo;
-    private StringProperty apartNo;
+public class Adress implements Serializable {
+    private transient StringProperty city;
+    private transient StringProperty street;
+    private transient StringProperty buildNo;
+    private transient StringProperty apartNo;
 
     public Adress(String city, String street, String buildNo, String apartNo) {
         this.city = new SimpleStringProperty(city);
@@ -110,5 +116,21 @@ public class Adress {
         sb.append(", ");
         sb.append(getApartNo());
         return sb.toString();
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(getCity());
+        oos.writeObject(getStreet());
+        oos.writeObject(getBuildNo());
+        oos.writeObject(getApartNo());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        city = new SimpleStringProperty((String) ois.readObject());
+        street = new SimpleStringProperty((String) ois.readObject());
+        buildNo = new SimpleStringProperty((String) ois.readObject());
+        apartNo = new SimpleStringProperty((String) ois.readObject());
     }
 }

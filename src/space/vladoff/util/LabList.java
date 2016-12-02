@@ -1,13 +1,17 @@
 package space.vladoff.util;
 
-import java.util.NoSuchElementException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Created by Vladislav Russinovich on 18.11.2016.
  * NSTU, Faculty of Automation and Computer Engineering, AVT-512
  * Licensed under WTFPL
  */
-public class LabList<E> {
+public class LabList<E> implements List, Serializable {
     //Узел списка
     public static class Node<E> {
         //Текущий элемент узла
@@ -24,7 +28,7 @@ public class LabList<E> {
         }
     }
 
-    int size = 0;
+    transient int size = 0;
     Node<E> first;
     Node<E> last;
 
@@ -209,8 +213,39 @@ public class LabList<E> {
         return size;
     }
 
-    public boolean add(E e) {
-        linkLast(e);
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return false;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return null;
+    }
+
+    @Override
+    public Object[] toArray() {
+        return new Object[0];
+    }
+
+    /*@Override
+    public boolean add(Object o) {
+        return false;
+    }
+*/
+    @Override
+    public Object[] toArray(Object[] a) {
+        return new Object[0];
+    }
+
+    @Override
+    public boolean add(Object e) {
+        linkLast((E) e);
         return true;
     }
 
@@ -230,6 +265,36 @@ public class LabList<E> {
                 }
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean addAll(Collection c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection c) {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public boolean retainAll(Collection c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection c) {
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection c) {
         return false;
     }
 
@@ -267,8 +332,55 @@ public class LabList<E> {
         return -1;
     }
 
+    @Override
+    public int lastIndexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public ListIterator listIterator() {
+        return null;
+    }
+
+    @Override
+    public ListIterator listIterator(int index) {
+        return null;
+    }
+
+    @Override
+    public List subList(int fromIndex, int toIndex) {
+        return null;
+    }
+
     public E get(int index) {
         //TODO: Throw exception when index is non-valid
         return node(index).element;
+    }
+
+    @Override
+    public Object set(int index, Object element) {
+        return null;
+    }
+
+    @Override
+    public void add(int index, Object element) {
+
+    }
+
+    @Override
+    public Object remove(int index) {
+        return null;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.writeInt(this.size);
+        for (int i = 0; i < size; i++)
+            oos.writeObject(this.get(i));
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        int sz = ois.readInt();
+        for (int i = 0; i < sz; i++)
+            this.add(ois.readObject());
     }
 }

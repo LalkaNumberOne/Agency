@@ -4,6 +4,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import space.vladoff.model.enums.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 
 /**
@@ -13,8 +16,8 @@ import java.time.LocalDate;
  */
 public class Cottage extends RealEstate {
 
-    private ObjectProperty<GarageProperty> garage;
-    private ObjectProperty<Pool> pool;
+    private transient ObjectProperty<GarageProperty> garage;
+    private transient ObjectProperty<Pool> pool;
 
     public Cottage(LocalDate dateOfRecord, Person owner, int roomCount, Adress adress,
                    MaterialType objectMaterial, int floor, double area,
@@ -84,5 +87,18 @@ public class Cottage extends RealEstate {
     @Override
     public String toString() {
         return "Коттедж";
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeInt(getGarage().ordinal());
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+
+        this.garage = new SimpleObjectProperty<>(GarageProperty.values()[ois.readInt()]);
+        this.pool = new SimpleObjectProperty<>(Pool.values()[ois.readInt()]);
     }
 }
